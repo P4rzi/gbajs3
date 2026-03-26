@@ -36,9 +36,9 @@ import { StyledBiPlus } from '../shared/styled.tsx';
 import type { FileTypes } from '../../emulator/mgba/mgba-emulator.tsx';
 
 type InputProps = {
-  files?: File[];
-  fileUrls?: { url: string; type: keyof FileTypes }[];
-  romFileToRun?: string;
+  files: File[];
+  fileUrls: { url: string; type: keyof FileTypes }[];
+  romFileToRun?: string | null;
 };
 
 type RunRomCheckboxProps = {
@@ -47,7 +47,6 @@ type RunRomCheckboxProps = {
 
 type AdditionalFileActionsProps = {
   fileName: string;
-  selectedFileName?: string;
   setSelectedFileName: (name: string | null) => void;
   isChecked: boolean;
   isRomFile: boolean;
@@ -57,8 +56,6 @@ const defaultFileUrl: { url: string; type: keyof FileTypes } = {
   url: '',
   type: 'rom'
 };
-
-const defaultNoSelectedRom = 'none';
 
 const GridContainer = styled('div')`
   display: grid;
@@ -104,11 +101,10 @@ const orderFileNamesByExtension = (types?: FileTypes) => {
 
 // TODO: find a better place for this logic, slightly duplicated
 const fetchFileFromUrl = async (fileUrl: URL) => {
-  const options: RequestInit = {
-    method: 'GET'
-  };
-
-  const res = await fetch(fileUrl, options);
+  const res = await fetch(fileUrl);
+  if (!res.ok) {
+    throw new Error(`Received unexpected status code: ${res.status}`);
+  }
 
   // extract file name from response headers if possible
   const fileName = res.headers
@@ -122,10 +118,6 @@ const fetchFileFromUrl = async (fileUrl: URL) => {
   const fallbackFileName = decodeURIComponent(
     fileUrl.pathname.split('/').pop() ?? 'unknown_external.unknown'
   );
-
-  if (!res.ok) {
-    throw new Error(`Received unexpected status code: ${res.status}`);
-  }
 
   const blob = await res.blob();
   const file = new File([blob], fileName ?? fallbackFileName);
@@ -149,16 +141,15 @@ const RunRomCheckboxProps = ({
 const AdditionalFileActions = ({
   fileName,
   isChecked,
-  selectedFileName,
   setSelectedFileName,
   isRomFile
 }: AdditionalFileActionsProps) => {
-  if (!isRomFile) return;
+  if (!isRomFile) return null;
 
   return (
     <RunRomCheckboxProps
       fileName={fileName}
-      checked={isChecked || fileName === selectedFileName}
+      checked={isChecked}
       onChange={() => {
         setSelectedFileName(isChecked ? null : fileName);
       }}
@@ -182,7 +173,11 @@ export const UploadFilesModal = () => {
     register,
     formState: { errors, isSubmitting }
   } = useForm<InputProps>({
-    defaultValues: { fileUrls: [defaultFileUrl] }
+    defaultValues: {
+      files: [],
+      fileUrls: [defaultFileUrl],
+      romFileToRun: undefined
+    }
   });
   const { fields, append, remove } = useFieldArray({
     control,
@@ -193,8 +188,8 @@ export const UploadFilesModal = () => {
     emulator?.defaultFileTypes() ?? {}
   ).flatMap((_) => _);
 
-  const findFirstRomFile = (files?: File[]) =>
-    files?.find((file) => emulator?.isFileExtensionOfType(file.name, 'rom'))
+  const findFirstRomFile = (files: File[]) =>
+    files.find((file) => emulator?.isFileExtensionOfType(file.name, 'rom'))
       ?.name;
 
   const onDrop = useCallback(
@@ -209,38 +204,31 @@ export const UploadFilesModal = () => {
     fileUrls,
     romFileToRun
   }) => {
-    if (files)
-      await Promise.all(files.map((file) => writeFileToEmulator(file)));
+    await Promise.all(files.map((file) => writeFileToEmulator(file)));
 
-    if (fileUrls) {
+    if (fileUrls.length > 0) {
       const externalFilesSettled = await Promise.allSettled(
         fileUrls
-          .filter((u) => !!u.url)
-          .map(async ({ url, type }) => {
-            // note: the url is validated below, this is safe
-            const file = await fetchFileFromUrl(new URL(url));
-
-            return {
-              file,
-              type
-            };
-          })
+          .filter((u) => u.url)
+          .map(async ({ url, type }) => ({
+            file: await fetchFileFromUrl(new URL(url)),
+            type
+          }))
       );
 
-      const writePromises = externalFilesSettled.flatMap((r) =>
-        r.status === 'fulfilled'
-          ? [writeFileToEmulator(r.value.file, r.value.type)]
-          : []
+      await Promise.all(
+        externalFilesSettled
+          .filter((r) => r.status === 'fulfilled')
+          .map((r) => writeFileToEmulator(r.value.file, r.value.type))
       );
-
-      await Promise.all(writePromises);
     }
 
     await syncActionIfEnabled();
 
-    const gameToRun = romFileToRun ?? findFirstRomFile(files);
+    const gameToRun =
+      romFileToRun === undefined ? findFirstRomFile(files) : romFileToRun;
 
-    if (gameToRun !== defaultNoSelectedRom && gameToRun) runGame(gameToRun);
+    if (gameToRun) runGame(gameToRun);
 
     setIsModalOpen(false);
   };
@@ -272,7 +260,7 @@ export const UploadFilesModal = () => {
                 name="files"
                 rules={{
                   validate: (files) =>
-                    (files?.length ?? 0) > 0 ||
+                    files.length > 0 ||
                     uploadType === 'urls' ||
                     `At least one ${validFileExtensions
                       .map(
@@ -289,19 +277,15 @@ export const UploadFilesModal = () => {
                     name={name}
                     validFileExtensions={validFileExtensions}
                     error={error?.message}
-                    hideAcceptedFiles={!value?.length}
+                    hideAcceptedFiles={!value.length}
                     sortAcceptedFiles={orderFileNamesByExtension(
                       emulator?.defaultFileTypes()
                     )}
                     multiple
                     renderAdditionalFileActions={({ fileName }) => (
                       <AdditionalFileActions
-                        selectedFileName={watch('romFileToRun')}
                         setSelectedFileName={(name) => {
-                          setValue(
-                            'romFileToRun',
-                            name ?? defaultNoSelectedRom
-                          );
+                          setValue('romFileToRun', name ?? null);
                         }}
                         isRomFile={
                           emulator?.isFileExtensionOfType(fileName, 'rom') ??
@@ -309,8 +293,9 @@ export const UploadFilesModal = () => {
                         }
                         fileName={fileName}
                         isChecked={
-                          (firstRomName === fileName && !romFileToRun) ||
-                          romFileToRun === fileName
+                          romFileToRun === fileName ||
+                          (romFileToRun === undefined &&
+                            firstRomName === fileName)
                         }
                       />
                     )}
@@ -325,85 +310,77 @@ export const UploadFilesModal = () => {
             </GridItem>
             <GridItem $isVisible={uploadType === 'urls'}>
               <UrlFieldContainer>
-                {fields.map((item, index) => {
-                  return (
-                    <div key={item.id}>
-                      {index !== 0 && (
-                        <Divider flexItem sx={{ margin: '10px 0' }} />
-                      )}
-                      <UrlInputsContainer>
-                        <TextField
-                          id={`${uploadFilesFormId}--file-url-${index}`}
-                          error={!!errors.fileUrls?.[index]?.url}
-                          label="URL"
-                          size="small"
-                          autoComplete="url"
-                          variant="filled"
-                          helperText={errors.fileUrls?.[index]?.url?.message}
-                          aria-label="Upload File From URL"
-                          fullWidth
-                          slotProps={{
-                            input: {
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <IconButton
-                                    aria-label={`Remove URL ${index}`}
-                                    sx={{ padding: '5px' }}
-                                    onClick={() => {
-                                      remove(index);
-                                    }}
-                                  >
-                                    <BiTrash />
-                                  </IconButton>
-                                </InputAdornment>
-                              )
-                            }
-                          }}
-                          {...register(`fileUrls.${index}.url`, {
-                            validate: (fileUrl) => {
-                              if (uploadType === 'urls') {
-                                try {
-                                  if (fileUrl) new URL(fileUrl);
-                                  else return 'Invalid url - empty';
-                                } catch {
-                                  return 'Invalid url';
-                                }
+                {fields.map((item, index) => (
+                  <div key={item.id}>
+                    {index !== 0 && (
+                      <Divider flexItem sx={{ margin: '10px 0' }} />
+                    )}
+                    <UrlInputsContainer>
+                      <TextField
+                        id={`${uploadFilesFormId}--file-url-${index}`}
+                        error={!!errors.fileUrls?.[index]?.url}
+                        label="URL"
+                        size="small"
+                        autoComplete="url"
+                        variant="filled"
+                        helperText={errors.fileUrls?.[index]?.url?.message}
+                        aria-label="Upload File From URL"
+                        fullWidth
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label={`Remove URL ${index}`}
+                                  sx={{ padding: '5px' }}
+                                  onClick={() => {
+                                    remove(index);
+                                  }}
+                                >
+                                  <BiTrash />
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }
+                        }}
+                        {...register(`fileUrls.${index}.url`, {
+                          validate: (fileUrl) => {
+                            if (uploadType === 'urls') {
+                              try {
+                                if (!fileUrl) return 'Invalid url - empty';
+                                new URL(fileUrl);
+                              } catch {
+                                return 'Invalid url';
                               }
                             }
-                          })}
+                          }
+                        })}
+                      />
+                      <FormControl size="small">
+                        <InputLabel>File Type</InputLabel>
+                        <Controller
+                          control={control}
+                          name={`fileUrls.${index}.type`}
+                          defaultValue={item.type}
+                          render={({ field }) => (
+                            <Select label="File Type" {...field}>
+                              {Object.keys(
+                                emulator?.defaultFileTypes() ?? { rom: '.gba' }
+                              ).map((fileType) => (
+                                <MenuItem key={fileType} value={fileType}>
+                                  {fileType}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          )}
                         />
-                        <FormControl size="small">
-                          <InputLabel>File Type</InputLabel>
-                          <Controller
-                            control={control}
-                            name={`fileUrls.${index}.type`}
-                            defaultValue={item.type}
-                            render={({ field }) => (
-                              <Select
-                                labelId={`file-type-label-${index}`}
-                                label="File Type"
-                                {...field}
-                              >
-                                {Object.keys(
-                                  emulator?.defaultFileTypes() ?? {
-                                    rom: '.gba'
-                                  }
-                                ).map((fileType) => (
-                                  <MenuItem key={fileType} value={fileType}>
-                                    {fileType}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            )}
-                          />
-                        </FormControl>
-                      </UrlInputsContainer>
-                    </div>
-                  );
-                })}
+                      </FormControl>
+                    </UrlInputsContainer>
+                  </div>
+                ))}
               </UrlFieldContainer>
               <IconButton
-                aria-label={`Add upload url`}
+                aria-label="Add upload url"
                 sx={{ padding: 0, marginTop: '10px' }}
                 onClick={() => {
                   append(defaultFileUrl);
