@@ -25,7 +25,8 @@ import {
   BiFileFind,
   BiBrain,
   BiRefresh,
-  BiDownload
+  BiDownload,
+  BiX
 } from 'react-icons/bi';
 import { MdImportExport } from 'react-icons/md';
 
@@ -73,7 +74,6 @@ const NavigationMenuWrapper = styled('div')<ExpandableComponentProps>`
   position: fixed;
   background-color: ${({ theme }) => theme.mediumBlack};
   transition: left 0.4s ease-in-out;
-  -webkit-transition: left 0.4s ease-in-out;
   z-index: 150;
   text-align: left;
   left: 0;
@@ -122,15 +122,18 @@ const HamburgerButton = styled(ButtonBase)<
   z-index: 200;
   position: fixed;
   left: ${NavigationMenuWidth - 50}px;
-  top: 12px;
+  top: 88dvh;
   transition: 0.4s ease-in-out;
-  -webkit-transition: 0.4s ease-in-out;
   transition-property: left;
   cursor: pointer;
   border-radius: 0.25rem;
   border: none;
   min-height: 36px;
   min-width: 40px;
+
+  @media ${({ theme }) => theme.isLargerThanPhone} {
+    top: 12px;
+  }
 
   @media ${({ theme }) => theme.isMobileLandscape} {
     bottom: 15px;
@@ -144,7 +147,7 @@ const HamburgerButton = styled(ButtonBase)<
 
   &:focus {
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 0.25rem ${({ theme }) => theme.menuToggleFocusRing};
   }
 
   ${({ $areItemsDraggable, theme }) =>
@@ -156,18 +159,26 @@ const HamburgerButton = styled(ButtonBase)<
   `}
 `;
 
-const NavigationMenuClearDismiss = styled('button')`
-  position: absolute;
-  width: calc(100dvw - ${NavigationMenuWidth}px);
-  left: ${NavigationMenuWidth}px;
-  height: 99%;
-  background: 0 0;
+const NavigationMenuClearDismiss = styled('button')<{
+  $visible: boolean;
+}>`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
   z-index: 140;
   border: none;
+  background: ${({ theme }) => theme.menuBackdrop};
+  backdrop-filter: blur(8px);
+
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  pointer-events: ${({ $visible }) => ($visible ? 'auto' : 'none')};
+
+  transition: opacity 0.4s ease-in-out;
 `;
 
 export const NavigationMenu = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const { setModalContent, setIsModalOpen } = useModalContext();
   const { isAuthenticated } = useAuthContext();
@@ -179,10 +190,15 @@ export const NavigationMenu = () => {
   const menuButtonLayout = getLayout('menuButton');
   const theme = useTheme();
   const isLargerThanPhone = useMediaQuery(theme.isLargerThanPhone);
+  const [isExpandedByUser, setIsExpandedByUser] = useState<boolean | null>(
+    null
+  );
   const isMobileLandscape = useMediaQuery(theme.isMobileLandscape);
   const menuHeaderId = useId();
   const { quickReload, isQuickReloadAvailable } = useQuickReload();
 
+  const isExpanded =
+    isExpandedByUser ?? (isLargerThanPhone && !isMobileLandscape);
   const isMenuItemDisabledByAuth = !isAuthenticated();
   const hasApiLocation = !!import.meta.env.VITE_GBA_SERVER_LOCATION;
   const hasNoLocalRoms = !emulator?.listRoms().length;
@@ -214,14 +230,28 @@ export const NavigationMenu = () => {
             id="menu-btn"
             $isExpanded={isExpanded}
             onClick={() => {
-              setIsExpanded((prevState) => !prevState);
+              setIsExpandedByUser((prevState) => !prevState);
             }}
             aria-label="Menu Toggle"
             $areItemsDraggable={areItemsDraggable}
           >
-            <BiMenu
-              style={{ height: '29px', width: '29px', verticalAlign: 'middle' }}
-            />
+            {isExpanded ? (
+              <BiX
+                style={{
+                  height: '29px',
+                  width: '29px',
+                  verticalAlign: 'middle'
+                }}
+              />
+            ) : (
+              <BiMenu
+                style={{
+                  height: '29px',
+                  width: '29px',
+                  verticalAlign: 'middle'
+                }}
+              />
+            )}
           </HamburgerButton>
         </Draggable>
         <StyledMenuHeader id={menuHeaderId}>Menu</StyledMenuHeader>
@@ -440,14 +470,13 @@ export const NavigationMenu = () => {
           />
         </MenuItemWrapper>
       </NavigationMenuWrapper>
-      {isExpanded && (!isLargerThanPhone || isMobileLandscape) && (
-        <NavigationMenuClearDismiss
-          aria-label="Menu Dismiss"
-          onClick={() => {
-            setIsExpanded(false);
-          }}
-        />
-      )}
+      <NavigationMenuClearDismiss
+        $visible={isExpanded && (!isLargerThanPhone || isMobileLandscape)}
+        aria-label="Menu Dismiss"
+        onClick={() => {
+          setIsExpandedByUser(false);
+        }}
+      />
     </>
   );
 };

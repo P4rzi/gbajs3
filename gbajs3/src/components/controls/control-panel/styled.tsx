@@ -27,7 +27,7 @@ const interactivePanelControlStyle = ({
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.pureBlack};
+  color: ${theme.panelControlText};
   width: ${$controlled ? 'auto' : '100%'};
 
   ${!$controlled &&
@@ -57,10 +57,29 @@ export const PanelControlSlider = styled('div')<PanelControlSliderProps>`
 
 export const MutedMarkSlider = styled(Slider)`
   flex-grow: 1;
+  color: ${({ theme }) => theme.gbaThemeBlue};
+  padding: 0;
+
+  > .MuiSlider-rail {
+    opacity: 0.28;
+  }
+
+  > .MuiSlider-track {
+    background-color: ${({ theme }) => theme.panelSliderAccent};
+    border-color: ${({ theme }) => theme.panelSliderAccent};
+  }
+
+  > .MuiSlider-thumb {
+    background-color: ${({ theme }) => theme.panelSliderAccent};
+  }
 
   > .MuiSlider-markActive {
     opacity: 1;
     background-color: currentColor;
+  }
+
+  @media (pointer: coarse) {
+    padding: 0;
   }
 `;
 
@@ -81,7 +100,31 @@ export const PanelControlButton = styled(ButtonBase)<
   padding: 0;
 
   &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 0.25rem ${({ theme }) => theme.menuToggleFocusRing};
+  }
+
+  &:active {
+    color: ${({ theme }) => theme.gbaThemeBlue};
+  }
+
+  @media ${({ theme }) => theme.isMobileLandscape} {
+    flex-shrink: 1;
+    min-width: unset;
+  }
+`;
+
+export const PanelSliderButton = styled(ButtonBase)`
+  ${({ theme }) =>
+    interactivePanelControlStyle({
+      $controlled: true,
+      theme: theme
+    })}
+
+  border: none;
+
+  & svg {
+    width: 2em;
+    height: 2em;
   }
 
   &:active {

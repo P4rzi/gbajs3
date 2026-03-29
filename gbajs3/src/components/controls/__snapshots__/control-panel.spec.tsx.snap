@@ -2,7 +2,7 @@
 
 exports[`<ControlPanel /> > renders with default desktop position and size 1`] = `
 .emotion-0 {
-  background-color: #4f555a;
+  background-color: #1a2230;
   list-style: none;
   padding: 10px;
   margin: 0;
@@ -40,7 +40,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -62,7 +62,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: play;
   border: none;
@@ -81,7 +81,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 }
 
 .emotion-5:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-5:active {
@@ -103,7 +103,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -125,7 +125,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: quit;
   border: none;
@@ -144,7 +144,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 }
 
 .emotion-10:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-10:active {
@@ -166,7 +166,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -188,7 +188,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: drag;
   border: none;
@@ -207,7 +207,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 }
 
 .emotion-15:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-15:active {
@@ -229,7 +229,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -251,7 +251,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: resize;
   border: none;
@@ -270,7 +270,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 }
 
 .emotion-20:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-20:active {
@@ -292,7 +292,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -314,7 +314,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: rewind;
   border: none;
@@ -333,7 +333,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 }
 
 .emotion-25:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-25:active {
@@ -351,7 +351,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 
 .emotion-31 {
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -373,7 +373,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: volume;
   max-height: 40px;
@@ -385,11 +385,26 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   }
 }
 
-.emotion-33 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+.emotion-34 {
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  padding: inherit;
+  cursor: pointer;
+  background-color: #2a3442;
+  border-radius: 0.25rem;
+  min-width: 40px;
+  min-height: 40px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -398,83 +413,30 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  text-align: center;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  font-size: 1.5rem;
-  padding: 8px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
-  padding: 5px;
-  font-size: 1.125rem;
-  padding: 0px;
-  color: #000;
+  color: #c7d1dc;
+  width: auto;
+  border: none;
 }
 
-.emotion-33::-moz-focus-inner {
-  border-style: none;
+.emotion-34 svg {
+  width: 2em;
+  height: 2em;
 }
 
-.emotion-33.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-33 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-33:hover {
-  background-color: var(--IconButton-hoverBg);
-}
-
-@media (hover: none) {
-  .emotion-33:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-33.Mui-disabled {
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-33.MuiIconButton-loading {
-  color: transparent;
-}
-
-.emotion-33:active {
+.emotion-34:active {
   color: #1c76fd;
 }
 
-.emotion-35 {
+@media only screen and (max-height: 450px) and (max-width: 1000px) and (orientation: landscape) {
+  .emotion-34 {
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+    min-width: unset;
+  }
+}
+
+.emotion-37 {
   border-radius: 12px;
   box-sizing: content-box;
   display: inline-block;
@@ -482,7 +444,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   cursor: pointer;
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
-  color: #1976d2;
+  color: #356fca;
   height: 4px;
   width: 100%;
   padding: 13px 0;
@@ -490,42 +452,63 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+  color: #1c76fd;
+  padding: 0;
   width: 85px;
-  margin: 0 10px;
+  margin: 0 8px;
   max-height: 40px;
 }
 
 @media print {
-  .emotion-35 {
+  .emotion-37 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-35.Mui-disabled {
+.emotion-37.Mui-disabled {
   pointer-events: none;
   cursor: default;
   color: #bdbdbd;
 }
 
-.emotion-35.MuiSlider-dragging .MuiSlider-thumb,
-.emotion-35.MuiSlider-dragging .MuiSlider-track {
+.emotion-37.MuiSlider-dragging .MuiSlider-thumb,
+.emotion-37.MuiSlider-dragging .MuiSlider-track {
   -webkit-transition: none;
   transition: none;
 }
 
 @media (pointer: coarse) {
-  .emotion-35 {
+  .emotion-37 {
     padding: 20px 0;
   }
 }
 
-.emotion-35>.MuiSlider-markActive {
+.emotion-37>.MuiSlider-rail {
+  opacity: 0.28;
+}
+
+.emotion-37>.MuiSlider-track {
+  background-color: rgba(24, 84, 176, 1);
+  border-color: rgba(24, 84, 176, 1);
+}
+
+.emotion-37>.MuiSlider-thumb {
+  background-color: rgba(24, 84, 176, 1);
+}
+
+.emotion-37>.MuiSlider-markActive {
   opacity: 1;
   background-color: currentColor;
 }
 
-.emotion-36 {
+@media (pointer:coarse) {
+  .emotion-37 {
+    padding: 0;
+  }
+}
+
+.emotion-38 {
   display: block;
   position: absolute;
   border-radius: inherit;
@@ -540,7 +523,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   transform: translateY(-50%);
 }
 
-.emotion-37 {
+.emotion-39 {
   display: block;
   position: absolute;
   border-radius: inherit;
@@ -556,7 +539,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   transform: translateY(-50%);
 }
 
-.emotion-38 {
+.emotion-40 {
   position: absolute;
   width: 2px;
   height: 2px;
@@ -567,11 +550,11 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -moz-transform: translate(-1px, -50%);
   -ms-transform: translate(-1px, -50%);
   transform: translate(-1px, -50%);
-  background-color: #fff;
+  background-color: #0a0d12;
   opacity: 0.8;
 }
 
-.emotion-49 {
+.emotion-51 {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -600,7 +583,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   transform: translate(-50%, -50%);
 }
 
-.emotion-49::before {
+.emotion-51::before {
   position: absolute;
   content: "";
   border-radius: inherit;
@@ -609,7 +592,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-49::after {
+.emotion-51::after {
   position: absolute;
   content: "";
   border-radius: 50%;
@@ -623,27 +606,27 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   transform: translate(-50%, -50%);
 }
 
-.emotion-49.Mui-disabled:hover {
+.emotion-51.Mui-disabled:hover {
   box-shadow: none;
 }
 
-.emotion-49:hover,
-.emotion-49.Mui-focusVisible {
-  box-shadow: 0px 0px 0px 8px rgba(25, 118, 210, 0.16);
+.emotion-51:hover,
+.emotion-51.Mui-focusVisible {
+  box-shadow: 0px 0px 0px 8px rgba(53, 111, 202, 0.16);
 }
 
 @media (hover: none) {
-  .emotion-49:hover,
-  .emotion-49.Mui-focusVisible {
+  .emotion-51:hover,
+  .emotion-51.Mui-focusVisible {
     box-shadow: none;
   }
 }
 
-.emotion-49.Mui-active {
-  box-shadow: 0px 0px 0px 14px rgba(25, 118, 210, 0.16);
+.emotion-51.Mui-active {
+  box-shadow: 0px 0px 0px 14px rgba(53, 111, 202, 0.16);
 }
 
-.emotion-50 {
+.emotion-52 {
   z-index: 1;
   white-space: nowrap;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -678,7 +661,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   transform-origin: bottom center;
 }
 
-.emotion-50::before {
+.emotion-52::before {
   position: absolute;
   content: "";
   width: 8px;
@@ -692,16 +675,16 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   left: 50%;
 }
 
-.emotion-50.MuiSlider-valueLabelOpen {
+.emotion-52.MuiSlider-valueLabelOpen {
   -webkit-transform: translateY(-100%) scale(1);
   -moz-transform: translateY(-100%) scale(1);
   -ms-transform: translateY(-100%) scale(1);
   transform: translateY(-100%) scale(1);
 }
 
-.emotion-56 {
+.emotion-60 {
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -723,19 +706,19 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: fastForward;
   max-height: 40px;
 }
 
 @media only screen and (min-width: 600px) {
-  .emotion-56 {
+  .emotion-60 {
     width: auto;
   }
 }
 
-.emotion-64 {
+.emotion-70 {
   position: absolute;
   width: 2px;
   height: 2px;
@@ -751,7 +734,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 <div
   class="react-draggable"
   data-testid="control-panel-wrapper"
-  id="_r_d_"
+  id="_r_5_"
   style="position: absolute; user-select: auto; width: auto; height: auto; display: inline-block; top: 0px; left: 0px; cursor: auto; transform: translate(0px,10px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0;"
 >
   <ul
@@ -763,7 +746,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
       <button
         aria-label="Play"
         class="emotion-4 emotion-5 emotion-6"
-        id="_r_d_--play"
+        id="_r_5_--play"
       >
         <svg
           fill="currentColor"
@@ -786,7 +769,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
       <button
         aria-label="Quit Game"
         class="emotion-4 emotion-10 emotion-6"
-        id="_r_d_--quit-game"
+        id="_r_5_--quit-game"
       >
         <svg
           fill="currentColor"
@@ -809,7 +792,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
       <button
         aria-label="Drag Items"
         class="noDrag emotion-4 emotion-15 emotion-6"
-        id="_r_d_--drag"
+        id="_r_5_--drag"
       >
         <svg
           fill="currentColor"
@@ -832,7 +815,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
       <button
         aria-label="Resize Items"
         class="noDrag emotion-4 emotion-20 emotion-6"
-        id="_r_d_--resize"
+        id="_r_5_--resize"
       >
         <svg
           fill="none"
@@ -860,7 +843,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
       <button
         aria-label="Rewind Emulator"
         class="emotion-4 emotion-25 emotion-6"
-        id="_r_d_--rewind"
+        id="_r_5_--rewind"
       >
         <svg
           fill="currentColor"
@@ -886,13 +869,11 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
       >
         <div
           class="emotion-31 emotion-32"
-          id="_r_d_--volume-slider"
+          id="_r_5_--volume-slider"
         >
           <button
             aria-label="Mute Volume"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -910,72 +891,72 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
             </svg>
           </button>
           <span
-            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-34 emotion-35"
+            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-36 emotion-37"
           >
             <span
-              class="MuiSlider-rail emotion-36"
+              class="MuiSlider-rail emotion-38"
             />
             <span
-              class="MuiSlider-track emotion-37"
+              class="MuiSlider-track emotion-39"
               style="left: 0%; width: 100%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="0"
               style="left: 0%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="1"
               style="left: 10%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="2"
               style="left: 20%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="3"
               style="left: 30.000000000000004%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="4"
               style="left: 40%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="5"
               style="left: 50%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="6"
               style="left: 60.00000000000001%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="7"
               style="left: 70%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="8"
               style="left: 80%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="9"
               style="left: 90%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="10"
               style="left: 100%;"
             />
             <span
-              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-49"
+              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-51"
               data-index="0"
               style="left: 100%;"
             >
@@ -995,7 +976,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
               />
               <span
                 aria-hidden="true"
-                class="MuiSlider-valueLabel emotion-50"
+                class="MuiSlider-valueLabel emotion-52"
               >
                 <span
                   class="MuiSlider-valueLabelCircle"
@@ -1011,9 +992,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
           </span>
           <button
             aria-label="Max Volume"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -1043,14 +1022,12 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
         class="emotion-2 emotion-30"
       >
         <div
-          class="emotion-56 emotion-32"
-          id="_r_d_--fast-forward"
+          class="emotion-60 emotion-32"
+          id="_r_5_--fast-forward"
         >
           <button
             aria-label="Regular Speed"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -1068,42 +1045,42 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
             </svg>
           </button>
           <span
-            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-34 emotion-35"
+            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-36 emotion-37"
           >
             <span
-              class="MuiSlider-rail emotion-36"
+              class="MuiSlider-rail emotion-38"
             />
             <span
-              class="MuiSlider-track emotion-37"
+              class="MuiSlider-track emotion-39"
               style="left: 0%; width: 0%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="0"
               style="left: 0%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="1"
               style="left: 25%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="2"
               style="left: 50%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="3"
               style="left: 75%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="4"
               style="left: 100%;"
             />
             <span
-              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-49"
+              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-51"
               data-index="0"
               style="left: 0%;"
             >
@@ -1123,7 +1100,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
               />
               <span
                 aria-hidden="true"
-                class="MuiSlider-valueLabel emotion-50"
+                class="MuiSlider-valueLabel emotion-52"
               >
                 <span
                   class="MuiSlider-valueLabelCircle"
@@ -1139,9 +1116,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
           </span>
           <button
             aria-label="Max Fast Forward"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -1168,7 +1143,7 @@ exports[`<ControlPanel /> > renders with default desktop position and size 1`] =
 
 exports[`<ControlPanel /> > renders with default mobile position and size 1`] = `
 .emotion-0 {
-  background-color: #4f555a;
+  background-color: #1a2230;
   list-style: none;
   padding: 10px;
   margin: 0;
@@ -1190,7 +1165,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1212,7 +1187,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: play;
   border: none;
@@ -1231,7 +1206,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 }
 
 .emotion-5:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-5:active {
@@ -1253,7 +1228,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1275,7 +1250,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: quit;
   border: none;
@@ -1294,7 +1269,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 }
 
 .emotion-10:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-10:active {
@@ -1316,7 +1291,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1338,7 +1313,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: drag;
   border: none;
@@ -1357,7 +1332,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 }
 
 .emotion-15:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-15:active {
@@ -1379,7 +1354,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1401,7 +1376,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: resize;
   border: none;
@@ -1420,7 +1395,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 }
 
 .emotion-20:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-20:active {
@@ -1442,7 +1417,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   line-height: inherit;
   padding: inherit;
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1464,7 +1439,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: rewind;
   border: none;
@@ -1483,7 +1458,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 }
 
 .emotion-25:focus {
-  box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .emotion-25:active {
@@ -1501,7 +1476,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 
 .emotion-31 {
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1523,7 +1498,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: volume;
   max-height: 40px;
@@ -1535,11 +1510,26 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   }
 }
 
-.emotion-33 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+.emotion-34 {
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  padding: inherit;
+  cursor: pointer;
+  background-color: #2a3442;
+  border-radius: 0.25rem;
+  min-width: 40px;
+  min-height: 40px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1548,83 +1538,30 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  text-align: center;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  font-size: 1.5rem;
-  padding: 8px;
-  border-radius: 50%;
-  color: rgba(0, 0, 0, 0.54);
-  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
-  padding: 5px;
-  font-size: 1.125rem;
-  padding: 0px;
-  color: #000;
+  color: #c7d1dc;
+  width: auto;
+  border: none;
 }
 
-.emotion-33::-moz-focus-inner {
-  border-style: none;
+.emotion-34 svg {
+  width: 2em;
+  height: 2em;
 }
 
-.emotion-33.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-33 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-33:hover {
-  background-color: var(--IconButton-hoverBg);
-}
-
-@media (hover: none) {
-  .emotion-33:hover {
-    background-color: transparent;
-  }
-}
-
-.emotion-33.Mui-disabled {
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-33.MuiIconButton-loading {
-  color: transparent;
-}
-
-.emotion-33:active {
+.emotion-34:active {
   color: #1c76fd;
 }
 
-.emotion-35 {
+@media only screen and (max-height: 450px) and (max-width: 1000px) and (orientation: landscape) {
+  .emotion-34 {
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+    min-width: unset;
+  }
+}
+
+.emotion-37 {
   border-radius: 12px;
   box-sizing: content-box;
   display: inline-block;
@@ -1632,7 +1569,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   cursor: pointer;
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
-  color: #1976d2;
+  color: #356fca;
   height: 4px;
   width: 100%;
   padding: 13px 0;
@@ -1640,42 +1577,63 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+  color: #1c76fd;
+  padding: 0;
   width: 85px;
-  margin: 0 10px;
+  margin: 0 8px;
   max-height: 40px;
 }
 
 @media print {
-  .emotion-35 {
+  .emotion-37 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-35.Mui-disabled {
+.emotion-37.Mui-disabled {
   pointer-events: none;
   cursor: default;
   color: #bdbdbd;
 }
 
-.emotion-35.MuiSlider-dragging .MuiSlider-thumb,
-.emotion-35.MuiSlider-dragging .MuiSlider-track {
+.emotion-37.MuiSlider-dragging .MuiSlider-thumb,
+.emotion-37.MuiSlider-dragging .MuiSlider-track {
   -webkit-transition: none;
   transition: none;
 }
 
 @media (pointer: coarse) {
-  .emotion-35 {
+  .emotion-37 {
     padding: 20px 0;
   }
 }
 
-.emotion-35>.MuiSlider-markActive {
+.emotion-37>.MuiSlider-rail {
+  opacity: 0.28;
+}
+
+.emotion-37>.MuiSlider-track {
+  background-color: rgba(24, 84, 176, 1);
+  border-color: rgba(24, 84, 176, 1);
+}
+
+.emotion-37>.MuiSlider-thumb {
+  background-color: rgba(24, 84, 176, 1);
+}
+
+.emotion-37>.MuiSlider-markActive {
   opacity: 1;
   background-color: currentColor;
 }
 
-.emotion-36 {
+@media (pointer:coarse) {
+  .emotion-37 {
+    padding: 0;
+  }
+}
+
+.emotion-38 {
   display: block;
   position: absolute;
   border-radius: inherit;
@@ -1690,7 +1648,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   transform: translateY(-50%);
 }
 
-.emotion-37 {
+.emotion-39 {
   display: block;
   position: absolute;
   border-radius: inherit;
@@ -1706,7 +1664,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   transform: translateY(-50%);
 }
 
-.emotion-38 {
+.emotion-40 {
   position: absolute;
   width: 2px;
   height: 2px;
@@ -1717,11 +1675,11 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -moz-transform: translate(-1px, -50%);
   -ms-transform: translate(-1px, -50%);
   transform: translate(-1px, -50%);
-  background-color: #fff;
+  background-color: #0a0d12;
   opacity: 0.8;
 }
 
-.emotion-49 {
+.emotion-51 {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -1750,7 +1708,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   transform: translate(-50%, -50%);
 }
 
-.emotion-49::before {
+.emotion-51::before {
   position: absolute;
   content: "";
   border-radius: inherit;
@@ -1759,7 +1717,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-49::after {
+.emotion-51::after {
   position: absolute;
   content: "";
   border-radius: 50%;
@@ -1773,27 +1731,27 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   transform: translate(-50%, -50%);
 }
 
-.emotion-49.Mui-disabled:hover {
+.emotion-51.Mui-disabled:hover {
   box-shadow: none;
 }
 
-.emotion-49:hover,
-.emotion-49.Mui-focusVisible {
-  box-shadow: 0px 0px 0px 8px rgba(25, 118, 210, 0.16);
+.emotion-51:hover,
+.emotion-51.Mui-focusVisible {
+  box-shadow: 0px 0px 0px 8px rgba(53, 111, 202, 0.16);
 }
 
 @media (hover: none) {
-  .emotion-49:hover,
-  .emotion-49.Mui-focusVisible {
+  .emotion-51:hover,
+  .emotion-51.Mui-focusVisible {
     box-shadow: none;
   }
 }
 
-.emotion-49.Mui-active {
-  box-shadow: 0px 0px 0px 14px rgba(25, 118, 210, 0.16);
+.emotion-51.Mui-active {
+  box-shadow: 0px 0px 0px 14px rgba(53, 111, 202, 0.16);
 }
 
-.emotion-50 {
+.emotion-52 {
   z-index: 1;
   white-space: nowrap;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -1828,7 +1786,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   transform-origin: bottom center;
 }
 
-.emotion-50::before {
+.emotion-52::before {
   position: absolute;
   content: "";
   width: 8px;
@@ -1842,16 +1800,16 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   left: 50%;
 }
 
-.emotion-50.MuiSlider-valueLabelOpen {
+.emotion-52.MuiSlider-valueLabelOpen {
   -webkit-transform: translateY(-100%) scale(1);
   -moz-transform: translateY(-100%) scale(1);
   -ms-transform: translateY(-100%) scale(1);
   transform: translateY(-100%) scale(1);
 }
 
-.emotion-56 {
+.emotion-60 {
   cursor: pointer;
-  background-color: #a9a9a9;
+  background-color: #2a3442;
   border-radius: 0.25rem;
   min-width: 40px;
   min-height: 40px;
@@ -1873,19 +1831,19 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  color: #000;
+  color: #c7d1dc;
   width: 100%;
   grid-area: fastForward;
   max-height: 40px;
 }
 
 @media only screen and (min-width: 600px) {
-  .emotion-56 {
+  .emotion-60 {
     width: auto;
   }
 }
 
-.emotion-64 {
+.emotion-70 {
   position: absolute;
   width: 2px;
   height: 2px;
@@ -1901,7 +1859,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
 <div
   class="react-draggable"
   data-testid="control-panel-wrapper"
-  id="_r_7_"
+  id="_r_3_"
   style="position: absolute; user-select: auto; width: 100dvw; height: auto; display: inline-block; top: 0px; left: 0px; cursor: auto; transform: translate(0px,0px); max-width: 9007199254740991px; max-height: 9007199254740991px; box-sizing: border-box; flex-shrink: 0;"
 >
   <ul
@@ -1913,7 +1871,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
       <button
         aria-label="Play"
         class="emotion-4 emotion-5 emotion-6"
-        id="_r_7_--play"
+        id="_r_3_--play"
       >
         <svg
           fill="currentColor"
@@ -1936,7 +1894,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
       <button
         aria-label="Quit Game"
         class="emotion-4 emotion-10 emotion-6"
-        id="_r_7_--quit-game"
+        id="_r_3_--quit-game"
       >
         <svg
           fill="currentColor"
@@ -1959,7 +1917,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
       <button
         aria-label="Drag Items"
         class="noDrag emotion-4 emotion-15 emotion-6"
-        id="_r_7_--drag"
+        id="_r_3_--drag"
       >
         <svg
           fill="currentColor"
@@ -1982,7 +1940,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
       <button
         aria-label="Resize Items"
         class="noDrag emotion-4 emotion-20 emotion-6"
-        id="_r_7_--resize"
+        id="_r_3_--resize"
       >
         <svg
           fill="none"
@@ -2010,7 +1968,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
       <button
         aria-label="Rewind Emulator"
         class="emotion-4 emotion-25 emotion-6"
-        id="_r_7_--rewind"
+        id="_r_3_--rewind"
       >
         <svg
           fill="currentColor"
@@ -2036,13 +1994,11 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
       >
         <div
           class="emotion-31 emotion-32"
-          id="_r_7_--volume-slider"
+          id="_r_3_--volume-slider"
         >
           <button
             aria-label="Mute Volume"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -2060,72 +2016,72 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
             </svg>
           </button>
           <span
-            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-34 emotion-35"
+            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-36 emotion-37"
           >
             <span
-              class="MuiSlider-rail emotion-36"
+              class="MuiSlider-rail emotion-38"
             />
             <span
-              class="MuiSlider-track emotion-37"
+              class="MuiSlider-track emotion-39"
               style="left: 0%; width: 100%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="0"
               style="left: 0%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="1"
               style="left: 10%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="2"
               style="left: 20%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="3"
               style="left: 30.000000000000004%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="4"
               style="left: 40%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="5"
               style="left: 50%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="6"
               style="left: 60.00000000000001%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="7"
               style="left: 70%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="8"
               style="left: 80%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="9"
               style="left: 90%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="10"
               style="left: 100%;"
             />
             <span
-              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-49"
+              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-51"
               data-index="0"
               style="left: 100%;"
             >
@@ -2145,7 +2101,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
               />
               <span
                 aria-hidden="true"
-                class="MuiSlider-valueLabel emotion-50"
+                class="MuiSlider-valueLabel emotion-52"
               >
                 <span
                   class="MuiSlider-valueLabelCircle"
@@ -2161,9 +2117,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
           </span>
           <button
             aria-label="Max Volume"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -2193,14 +2147,12 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
         class="emotion-2 emotion-30"
       >
         <div
-          class="emotion-56 emotion-32"
-          id="_r_7_--fast-forward"
+          class="emotion-60 emotion-32"
+          id="_r_3_--fast-forward"
         >
           <button
             aria-label="Regular Speed"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"
@@ -2218,42 +2170,42 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
             </svg>
           </button>
           <span
-            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-34 emotion-35"
+            class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium emotion-36 emotion-37"
           >
             <span
-              class="MuiSlider-rail emotion-36"
+              class="MuiSlider-rail emotion-38"
             />
             <span
-              class="MuiSlider-track emotion-37"
+              class="MuiSlider-track emotion-39"
               style="left: 0%; width: 0%;"
             />
             <span
-              class="MuiSlider-mark MuiSlider-markActive emotion-38"
+              class="MuiSlider-mark MuiSlider-markActive emotion-40"
               data-index="0"
               style="left: 0%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="1"
               style="left: 25%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="2"
               style="left: 50%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="3"
               style="left: 75%;"
             />
             <span
-              class="MuiSlider-mark emotion-64"
+              class="MuiSlider-mark emotion-70"
               data-index="4"
               style="left: 100%;"
             />
             <span
-              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-49"
+              class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary emotion-51"
               data-index="0"
               style="left: 0%;"
             >
@@ -2273,7 +2225,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
               />
               <span
                 aria-hidden="true"
-                class="MuiSlider-valueLabel emotion-50"
+                class="MuiSlider-valueLabel emotion-52"
               >
                 <span
                   class="MuiSlider-valueLabelCircle"
@@ -2289,9 +2241,7 @@ exports[`<ControlPanel /> > renders with default mobile position and size 1`] = 
           </span>
           <button
             aria-label="Max Fast Forward"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-33"
-            tabindex="0"
-            type="button"
+            class="emotion-33 emotion-34 emotion-6"
           >
             <svg
               fill="currentColor"

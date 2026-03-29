@@ -37,13 +37,18 @@ const VirtualButtonTextLarge = styled(Copy)`
   text-align: center;
   vertical-align: middle;
   line-height: 54px;
-  color: ${({ theme }) => theme.pureWhite};
+  color: ${({ theme }) => theme.surfaceTextPrimary};
+  font-weight: 600;
+  letter-spacing: 0.01em;
   font-size: 1.5em;
 `;
 
 const VirtualButtonTextSmall = styled('p')`
-  color: ${({ theme }) => theme.pureWhite};
+  color: ${({ theme }) => theme.surfaceTextPrimary};
   margin: 4px 5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
 `;
 
 const keyToAriaLabel = (key: string) =>
@@ -123,7 +128,7 @@ export const VirtualControls = () => {
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 35px - 3%)`,
-        left: `calc(${horizontalStartPos}px + 450px)`
+        left: `calc(${horizontalStartPos}px + 465px)`
       },
       mobileLandscape: {
         top: '235px',
@@ -140,7 +145,7 @@ export const VirtualControls = () => {
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 35px)`,
-        left: `calc(${horizontalStartPos}px + 375px)`
+        left: `calc(${horizontalStartPos}px + 400px)`
       },
       mobileLandscape: {
         top: 'calc(235px + 3%)',
@@ -150,29 +155,29 @@ export const VirtualControls = () => {
     'select-button': {
       defaultMobile: {
         top: '88dvh',
-        left: '25dvw'
+        left: '50dvw'
       },
       mobileWithUrlBar: {
         top: '92dvh',
-        left: '50dvw'
+        left: '40dvw'
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 60px)`,
-        left: `${horizontalStartPos}px`
+        left: `${horizontalStartPos + 120}px`
       },
       mobileLandscape: {
         top: 'calc(100dvh - 60px)',
-        left: '220px'
+        left: '335px'
       }
     },
     'start-button': {
       defaultMobile: {
         top: '88dvh',
-        left: '55dvw'
+        left: '50dvw'
       },
       mobileWithUrlBar: {
         top: '92dvh',
-        left: '75dvw'
+        left: '70dvw'
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 60px)`,
@@ -180,16 +185,16 @@ export const VirtualControls = () => {
       },
       mobileLandscape: {
         top: 'calc(100dvh - 60px)',
-        left: 'calc(100dvw - 255px)'
+        left: 'calc(100dvw - 305px)'
       }
     },
     'l-button': {
       defaultMobile: {
-        top: `${verticalStartPos + 15}px`,
+        top: `${verticalStartPos + 13}px`,
         left: '15px'
       },
       largerThanPhone: {
-        top: `calc(${verticalStartPos}px + 15px)`,
+        top: `calc(${verticalStartPos}px + 13px)`,
         left: `${horizontalStartPos}px`
       },
       mobileLandscape: {
@@ -199,12 +204,12 @@ export const VirtualControls = () => {
     },
     'r-button': {
       defaultMobile: {
-        top: `${verticalStartPos + 15}px`,
+        top: `${verticalStartPos + 13}px`,
         left: 'calc(100dvw - 15px)'
       },
       largerThanPhone: {
-        top: `calc(${verticalStartPos}px + 15px)`,
-        left: `calc(${horizontalStartPos}px + 190px)`
+        top: `calc(${verticalStartPos}px + 13px)`,
+        left: `calc(${horizontalStartPos}px + 225px)`
       },
       mobileLandscape: {
         top: 'calc(100dvh - 60px)',
@@ -218,7 +223,7 @@ export const VirtualControls = () => {
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 10px)`,
-        left: `calc(${horizontalStartPos}px + 205px)`
+        left: `calc(${horizontalStartPos}px + 235px)`
       },
       mobileLandscape: {
         top: '5px',
@@ -232,7 +237,7 @@ export const VirtualControls = () => {
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 10px)`,
-        left: `calc(${horizontalStartPos}px + 300px)`
+        left: `calc(${horizontalStartPos}px + 330px)`
       },
       mobileLandscape: {
         top: '55px',
@@ -249,7 +254,7 @@ export const VirtualControls = () => {
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 60px)`,
-        left: `calc(${horizontalStartPos}px + 248px)`
+        left: `calc(${horizontalStartPos}px + 278px)`
       },
       mobileLandscape: {
         top: '105px',
@@ -266,7 +271,7 @@ export const VirtualControls = () => {
       },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 60px)`,
-        left: `calc(${horizontalStartPos}px + 300px)`
+        left: `calc(${horizontalStartPos}px + 330px)`
       },
       mobileLandscape: {
         top: '155px',
@@ -278,9 +283,13 @@ export const VirtualControls = () => {
         top: `calc(${verticalStartPos}px + 11%)`,
         left: '10px'
       },
+      mobileWithUrlBar: {
+        top: `calc(${verticalStartPos}px + 9%)`,
+        left: '10px'
+      },
       largerThanPhone: {
         top: `calc(${verticalStartPos}px + 10px)`,
-        left: `calc(${horizontalStartPos}px + 450px)`
+        left: `calc(${horizontalStartPos}px + 460px)`
       },
       mobileLandscape: {
         top: 'calc(100dvh - 205px)',
@@ -319,7 +328,7 @@ export const VirtualControls = () => {
 
   const currentGameName = emulator?.getCurrentGameName();
   const currentSaveStateSlot = currentGameName
-    ? currentSaveStateSlots[currentGameName] ?? 0
+    ? (currentSaveStateSlots[currentGameName] ?? 0)
     : 0;
 
   const virtualButtons = [
@@ -350,6 +359,12 @@ export const VirtualControls = () => {
       isRectangular: true,
       children: <VirtualButtonTextSmall>Select</VirtualButtonTextSmall>,
       initialPosition: initialPositionForKey('select-button'),
+      initialOffset: isMobileWithUrlBar
+        ? undefined
+        : {
+            x: 'calc(-100% - 12px)',
+            y: '0px'
+          },
       keyName: 'select-button',
       enabled: shouldShowVirtualButtonsAndOpad
     },
@@ -358,6 +373,12 @@ export const VirtualControls = () => {
       isRectangular: true,
       children: <VirtualButtonTextSmall>Start</VirtualButtonTextSmall>,
       initialPosition: initialPositionForKey('start-button'),
+      initialOffset: isMobileWithUrlBar
+        ? undefined
+        : {
+            x: '12px',
+            y: '0px'
+          },
       keyName: 'start-button',
       enabled: shouldShowVirtualButtonsAndOpad
     },
