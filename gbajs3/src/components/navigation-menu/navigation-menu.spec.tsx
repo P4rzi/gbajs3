@@ -10,22 +10,6 @@ import { GbaDarkTheme } from '../../context/theme/theme.tsx';
 import * as contextHooks from '../../hooks/context.tsx';
 import * as quickReloadHooks from '../../hooks/emulator/use-quick-reload.tsx';
 import * as logoutHooks from '../../hooks/use-logout.tsx';
-import { AboutModal } from '../modals/about.tsx';
-import { CheatsModal } from '../modals/cheats.tsx';
-import { ControlsModal } from '../modals/controls.tsx';
-import { DownloadSaveModal } from '../modals/download-save.tsx';
-import { EmulatorSettingsModal } from '../modals/emulator-settings.tsx';
-import { FileSystemModal } from '../modals/file-system.tsx';
-import { ImportExportModal } from '../modals/import-export.tsx';
-import { LegalModal } from '../modals/legal.tsx';
-import { LoadLocalRomModal } from '../modals/load-local-rom.tsx';
-import { LoadRomModal } from '../modals/load-rom.tsx';
-import { LoadSaveModal } from '../modals/load-save.tsx';
-import { LoginModal } from '../modals/login.tsx';
-import { SaveStatesModal } from '../modals/save-states.tsx';
-import { UploadFilesModal } from '../modals/upload-files.tsx';
-import { UploadRomToServerModal } from '../modals/upload-rom-to-server.tsx';
-import { UploadSaveToServerModal } from '../modals/upload-save-to-server.tsx';
 
 import type { GBAEmulator } from '../../emulator/mgba/mgba-emulator.tsx';
 import type {
@@ -133,25 +117,20 @@ describe('<NavigationMenu />', () => {
 
   describe('menu nodes', () => {
     it.each([
-      ['About', <AboutModal />],
-      ['Upload Files', <UploadFilesModal />],
-      ['Controls', <ControlsModal />],
-      ['File System', <FileSystemModal />],
-      ['Emulator Settings', <EmulatorSettingsModal />],
-      ['Import/Export', <ImportExportModal />],
-      ['Legal', <LegalModal />],
-      ['Login', <LoginModal />]
+      ['About', { type: 'about' }],
+      ['Controls', { type: 'controls' }],
+      ['Emulator Settings', { type: 'emulatorSettings' }],
+      ['Legal', { type: 'legal' }],
+      ['Login', { type: 'login' }]
     ])('%s opens modal on click', async (title, expected) => {
-      const setIsModalOpenSpy = vi.fn();
-      const setModalContextSpy = vi.fn();
+      const openModalSpy = vi.fn();
       const { useModalContext: original } = await vi.importActual<
         typeof contextHooks
       >('../../hooks/context.tsx');
 
       vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
         ...original(),
-        setModalContent: setModalContextSpy,
-        setIsModalOpen: setIsModalOpenSpy
+        openModal: openModalSpy
       }));
 
       renderWithContext(<NavigationMenu />);
@@ -162,19 +141,58 @@ describe('<NavigationMenu />', () => {
 
       await userEvent.click(menuNode);
 
-      expect(setModalContextSpy).toHaveBeenCalledWith(expected);
-      expect(setIsModalOpenSpy).toHaveBeenCalledWith(true);
+      expect(openModalSpy).toHaveBeenCalledWith(expected);
     });
 
     it.each([
-      ['Download Save', <DownloadSaveModal />],
-      ['Manage Save States', <SaveStatesModal />],
-      ['Manage Cheats', <CheatsModal />]
+      ['Upload Files', { type: 'uploadFiles' }],
+      ['File System', { type: 'fileSystem' }],
+      ['Import/Export', { type: 'importExport' }]
+    ])(
+      '%s opens modal on click when emulator is ready',
+      async (title, expected) => {
+        const openModalSpy = vi.fn();
+        const {
+          useModalContext: originalModal,
+          useEmulatorContext: originalEmulator
+        } = await vi.importActual<typeof contextHooks>(
+          '../../hooks/context.tsx'
+        );
+
+        vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
+          ...originalModal(),
+          openModal: openModalSpy
+        }));
+
+        vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+          ...originalEmulator(),
+          emulator: {
+            getCurrentAutoSaveStatePath: () => null,
+            getCurrentGameName: () => undefined,
+            listRoms: () => ['some_rom.gba']
+          } as GBAEmulator
+        }));
+
+        renderWithContext(<NavigationMenu />);
+
+        const menuNode = screen.getByText(title);
+
+        expect(menuNode).toBeInTheDocument();
+
+        await userEvent.click(menuNode);
+
+        expect(openModalSpy).toHaveBeenCalledWith(expected);
+      }
+    );
+
+    it.each([
+      ['Download Save', { type: 'downloadSave' }],
+      ['Manage Save States', { type: 'saveStates' }],
+      ['Manage Cheats', { type: 'cheats' }]
     ])(
       '%s opens modal on click with running emulator',
       async (title, expected) => {
-        const setIsModalOpenSpy = vi.fn();
-        const setModalContextSpy = vi.fn();
+        const openModalSpy = vi.fn();
         const {
           useModalContext: originalModal,
           useRunningContext: originalRunning
@@ -184,8 +202,7 @@ describe('<NavigationMenu />', () => {
 
         vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
           ...originalModal(),
-          setModalContent: setModalContextSpy,
-          setIsModalOpen: setIsModalOpenSpy
+          openModal: openModalSpy
         }));
 
         vi.spyOn(contextHooks, 'useRunningContext').mockImplementation(() => ({
@@ -201,14 +218,12 @@ describe('<NavigationMenu />', () => {
 
         await userEvent.click(menuNode);
 
-        expect(setModalContextSpy).toHaveBeenCalledWith(expected);
-        expect(setIsModalOpenSpy).toHaveBeenCalledWith(true);
+        expect(openModalSpy).toHaveBeenCalledWith(expected);
       }
     );
 
     it('Load Local Rom opens modal on click when local roms are present', async () => {
-      const setIsModalOpenSpy = vi.fn();
-      const setModalContextSpy = vi.fn();
+      const openModalSpy = vi.fn();
       const { useModalContext: original } = await vi.importActual<
         typeof contextHooks
       >('../../hooks/context.tsx');
@@ -218,8 +233,7 @@ describe('<NavigationMenu />', () => {
 
       vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
         ...original(),
-        setModalContent: setModalContextSpy,
-        setIsModalOpen: setIsModalOpenSpy
+        openModal: openModalSpy
       }));
 
       vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
@@ -239,8 +253,7 @@ describe('<NavigationMenu />', () => {
 
       await userEvent.click(menuNode);
 
-      expect(setModalContextSpy).toHaveBeenCalledWith(<LoadLocalRomModal />);
-      expect(setIsModalOpenSpy).toHaveBeenCalledWith(true);
+      expect(openModalSpy).toHaveBeenCalledWith({ type: 'loadLocalRom' });
     });
 
     it('Load Local Rom renders as disabled', async () => {
@@ -260,6 +273,15 @@ describe('<NavigationMenu />', () => {
       expect(menuNode).toBeInTheDocument();
       expect(menuNode).toBeDisabled();
     });
+
+    it.each(['Upload Files', 'File System', 'Import/Export'])(
+      '%s renders as disabled while emulator is loading',
+      (title) => {
+        renderWithContext(<NavigationMenu />);
+
+        expect(screen.getByRole('button', { name: title })).toBeDisabled();
+      }
+    );
 
     it('Quick Reload calls hook on click when running', async () => {
       const quickReloadSpy: () => void = vi.fn();
@@ -489,21 +511,59 @@ describe('<NavigationMenu />', () => {
     });
 
     it.each([
-      ['Load Save (Server)', <LoadSaveModal />],
-      ['Load Rom (Server)', <LoadRomModal />]
+      ['Load Save (Server)', { type: 'loadSave' }],
+      ['Load Rom (Server)', { type: 'loadRom' }]
     ])(
       '%s opens modal on click with authentication',
       async (title, expected) => {
-        const setIsModalOpenSpy = vi.fn();
-        const setModalContextSpy = vi.fn();
-        const { useModalContext: originalModal, useAuthContext: originalAuth } =
-          await vi.importActual<typeof contextHooks>('../../hooks/context.tsx');
+        const openModalSpy = vi.fn();
+        const {
+          useModalContext: originalModal,
+          useAuthContext: originalAuth,
+          useEmulatorContext: originalEmulator
+        } = await vi.importActual<typeof contextHooks>(
+          '../../hooks/context.tsx'
+        );
 
         vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
           ...originalModal(),
-          setModalContent: setModalContextSpy,
-          setIsModalOpen: setIsModalOpenSpy
+          openModal: openModalSpy
         }));
+
+        vi.spyOn(contextHooks, 'useAuthContext').mockImplementation(() => ({
+          ...originalAuth(),
+          isAuthenticated: () => true
+        }));
+
+        vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+          ...originalEmulator(),
+          emulator: {
+            getCurrentAutoSaveStatePath: () => null,
+            getCurrentGameName: () => undefined,
+            listRoms: () => ['some_rom.gba']
+          } as GBAEmulator
+        }));
+
+        renderWithContext(<NavigationMenu />);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Profile' }));
+
+        const menuNode = screen.getByText(title);
+
+        expect(menuNode).toBeInTheDocument();
+
+        await userEvent.click(menuNode);
+
+        expect(openModalSpy).toHaveBeenCalledWith(expected);
+      }
+    );
+
+    it.each(['Load Save (Server)', 'Load Rom (Server)'])(
+      '%s renders as disabled while emulator is loading',
+      async (title) => {
+        const { useAuthContext: originalAuth } = await vi.importActual<
+          typeof contextHooks
+        >('../../hooks/context.tsx');
 
         vi.spyOn(contextHooks, 'useAuthContext').mockImplementation(() => ({
           ...originalAuth(),
@@ -512,25 +572,19 @@ describe('<NavigationMenu />', () => {
 
         renderWithContext(<NavigationMenu />);
 
-        const menuNode = screen.getByText(title);
+        await userEvent.click(screen.getByRole('button', { name: 'Profile' }));
 
-        expect(menuNode).toBeInTheDocument();
-
-        await userEvent.click(menuNode);
-
-        expect(setModalContextSpy).toHaveBeenCalledWith(expected);
-        expect(setIsModalOpenSpy).toHaveBeenCalledWith(true);
+        expect(screen.getByRole('button', { name: title })).toBeDisabled();
       }
     );
 
     it.each([
-      ['Send Save to Server', <UploadSaveToServerModal />],
-      ['Send Rom to Server', <UploadRomToServerModal />]
+      ['Send Save to Server', { type: 'uploadSaveToServer' }],
+      ['Send Rom to Server', { type: 'uploadRomToServer' }]
     ])(
       '%s opens modal on click with authentication and running emulator',
       async (title, expected) => {
-        const setIsModalOpenSpy = vi.fn();
-        const setModalContextSpy = vi.fn();
+        const openModalSpy = vi.fn();
         const {
           useModalContext: originalModal,
           useAuthContext: originalAuth,
@@ -541,8 +595,7 @@ describe('<NavigationMenu />', () => {
 
         vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
           ...originalModal(),
-          setModalContent: setModalContextSpy,
-          setIsModalOpen: setIsModalOpenSpy
+          openModal: openModalSpy
         }));
 
         vi.spyOn(contextHooks, 'useAuthContext').mockImplementation(() => ({
@@ -563,8 +616,7 @@ describe('<NavigationMenu />', () => {
 
         await userEvent.click(menuNode);
 
-        expect(setModalContextSpy).toHaveBeenCalledWith(expected);
-        expect(setIsModalOpenSpy).toHaveBeenCalledWith(true);
+        expect(openModalSpy).toHaveBeenCalledWith(expected);
       }
     );
   });

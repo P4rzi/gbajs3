@@ -44,22 +44,6 @@ import {
 import { useQuickReload } from '../../hooks/emulator/use-quick-reload.tsx';
 import { useLogout } from '../../hooks/use-logout.tsx';
 import { useShowLoadPublicRoms } from '../../hooks/use-show-load-public-roms.tsx';
-import { AboutModal } from '../modals/about.tsx';
-import { CheatsModal } from '../modals/cheats.tsx';
-import { ControlsModal } from '../modals/controls.tsx';
-import { DownloadSaveModal } from '../modals/download-save.tsx';
-import { EmulatorSettingsModal } from '../modals/emulator-settings.tsx';
-import { FileSystemModal } from '../modals/file-system.tsx';
-import { ImportExportModal } from '../modals/import-export.tsx';
-import { LegalModal } from '../modals/legal.tsx';
-import { LoadLocalRomModal } from '../modals/load-local-rom.tsx';
-import { LoadRomModal } from '../modals/load-rom.tsx';
-import { LoadSaveModal } from '../modals/load-save.tsx';
-import { LoginModal } from '../modals/login.tsx';
-import { SaveStatesModal } from '../modals/save-states.tsx';
-import { UploadFilesModal } from '../modals/upload-files.tsx';
-import { UploadRomToServerModal } from '../modals/upload-rom-to-server.tsx';
-import { UploadSaveToServerModal } from '../modals/upload-save-to-server.tsx';
 import { ButtonBase } from '../shared/custom-button-base.tsx';
 
 type ExpandableComponentProps = {
@@ -180,7 +164,7 @@ const NavigationMenuClearDismiss = styled('button')<{
 
 export const NavigationMenu = () => {
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
-  const { setModalContent, setIsModalOpen } = useModalContext();
+  const { openModal } = useModalContext();
   const { isAuthenticated } = useAuthContext();
   const { canvas, emulator } = useEmulatorContext();
   const { isRunning } = useRunningContext();
@@ -201,9 +185,10 @@ export const NavigationMenu = () => {
 
   const isExpanded =
     isExpandedByUser ?? (isLargerThanPhone && !isMobileLandscape);
+  const isEmulatorReady = !!emulator;
   const isMenuItemDisabledByAuth = !isAuthenticated();
   const hasApiLocation = !!import.meta.env.VITE_GBA_SERVER_LOCATION;
-  const hasNoLocalRoms = !emulator?.listRoms().length;
+  const hasNoLocalRoms = isEmulatorReady && !emulator.listRoms().length;
 
   useShowLoadPublicRoms();
 
@@ -263,8 +248,7 @@ export const NavigationMenu = () => {
             icon={<BiInfoCircle />}
             $withPadding
             onClick={() => {
-              setModalContent(<AboutModal />);
-              setIsModalOpen(true);
+              openModal({ type: 'about' });
             }}
           />
 
@@ -276,20 +260,18 @@ export const NavigationMenu = () => {
           >
             <NavLeaf
               title="Upload Files"
-              $disabled={isRunning}
+              $disabled={isRunning || !isEmulatorReady}
               icon={<BiUpload />}
               onClick={() => {
-                setModalContent(<UploadFilesModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'uploadFiles' });
               }}
             />
             <NavLeaf
               title="Load Local Rom"
-              $disabled={isRunning || hasNoLocalRoms}
+              $disabled={isRunning || !isEmulatorReady || hasNoLocalRoms}
               icon={<BiRedo />}
               onClick={() => {
-                setModalContent(<LoadLocalRomModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'loadLocalRom' });
               }}
             />
           </NavComponent>
@@ -332,8 +314,7 @@ export const NavigationMenu = () => {
               $disabled={!isRunning}
               icon={<BiDownload />}
               onClick={() => {
-                setModalContent(<DownloadSaveModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'downloadSave' });
               }}
             />
             <NavLeaf
@@ -341,8 +322,7 @@ export const NavigationMenu = () => {
               $disabled={!isRunning}
               icon={<BiBookmarks />}
               onClick={() => {
-                setModalContent(<SaveStatesModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'saveStates' });
               }}
             />
             <NavLeaf
@@ -350,8 +330,7 @@ export const NavigationMenu = () => {
               $disabled={!isRunning}
               icon={<BiEdit />}
               onClick={() => {
-                setModalContent(<CheatsModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'cheats' });
               }}
             />
           </NavComponent>
@@ -369,8 +348,7 @@ export const NavigationMenu = () => {
             icon={<BiJoystick />}
             $withPadding
             onClick={() => {
-              setModalContent(<ControlsModal />);
-              setIsModalOpen(true);
+              openModal({ type: 'controls' });
             }}
           />
 
@@ -378,9 +356,9 @@ export const NavigationMenu = () => {
             title="File System"
             icon={<BiFileFind />}
             $withPadding
+            $disabled={!isEmulatorReady}
             onClick={() => {
-              setModalContent(<FileSystemModal />);
-              setIsModalOpen(true);
+              openModal({ type: 'fileSystem' });
             }}
           />
 
@@ -389,8 +367,7 @@ export const NavigationMenu = () => {
             icon={<BiBrain />}
             $withPadding
             onClick={() => {
-              setModalContent(<EmulatorSettingsModal />);
-              setIsModalOpen(true);
+              openModal({ type: 'emulatorSettings' });
             }}
           />
 
@@ -403,8 +380,7 @@ export const NavigationMenu = () => {
               title="Login"
               icon={<BiLogInCircle />}
               onClick={() => {
-                setModalContent(<LoginModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'login' });
               }}
             />
             <NavLeaf
@@ -415,20 +391,18 @@ export const NavigationMenu = () => {
             />
             <NavLeaf
               title="Load Save (Server)"
-              $disabled={isMenuItemDisabledByAuth}
+              $disabled={isMenuItemDisabledByAuth || !isEmulatorReady}
               icon={<BiCloudDownload />}
               onClick={() => {
-                setModalContent(<LoadSaveModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'loadSave' });
               }}
             />
             <NavLeaf
               title="Load Rom (Server)"
-              $disabled={isMenuItemDisabledByAuth}
+              $disabled={isMenuItemDisabledByAuth || !isEmulatorReady}
               icon={<BiCloudDownload />}
               onClick={() => {
-                setModalContent(<LoadRomModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'loadRom' });
               }}
             />
             <NavLeaf
@@ -436,8 +410,7 @@ export const NavigationMenu = () => {
               $disabled={isMenuItemDisabledByAuth || !isRunning}
               icon={<BiCloudUpload />}
               onClick={() => {
-                setModalContent(<UploadSaveToServerModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'uploadSaveToServer' });
               }}
             />
             <NavLeaf
@@ -445,8 +418,7 @@ export const NavigationMenu = () => {
               $disabled={isMenuItemDisabledByAuth || !isRunning}
               icon={<BiCloudUpload />}
               onClick={() => {
-                setModalContent(<UploadRomToServerModal />);
-                setIsModalOpen(true);
+                openModal({ type: 'uploadRomToServer' });
               }}
             />
           </NavComponent>
@@ -454,9 +426,9 @@ export const NavigationMenu = () => {
           <NavLeaf
             title="Import/Export"
             icon={<MdImportExport />}
+            $disabled={!isEmulatorReady}
             onClick={() => {
-              setModalContent(<ImportExportModal />);
-              setIsModalOpen(true);
+              openModal({ type: 'importExport' });
             }}
             $withPadding
           />
@@ -465,8 +437,7 @@ export const NavigationMenu = () => {
             title="Legal"
             icon={<BiCheckShield />}
             onClick={() => {
-              setModalContent(<LegalModal />);
-              setIsModalOpen(true);
+              openModal({ type: 'legal' });
             }}
             $withPadding
           />

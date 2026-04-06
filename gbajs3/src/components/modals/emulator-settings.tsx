@@ -106,7 +106,7 @@ const a11yProps = (index: number) => ({
 export const EmulatorSettingsModal = () => {
   const { emulator } = useEmulatorContext();
   const { isRunning } = useRunningContext();
-  const { setIsModalOpen } = useModalContext();
+  const { closeModal } = useModalContext();
   const { addCallbacks } = useAddCallbacks();
   const [emulatorSettings, setEmulatorSettings] = useLocalStorage<
     EmulatorSettings | undefined
@@ -163,6 +163,14 @@ export const EmulatorSettingsModal = () => {
 
   const defaultAudioSampleRates = emulator?.defaultAudioSampleRates();
   const defaultAudioBufferSizes = emulator?.defaultAudioBufferSizes();
+  const audioSampleRate = watch('audioSampleRate');
+  const audioBufferSize = watch('audioBufferSize');
+  const renderedAudioSampleRate = defaultAudioSampleRates
+    ? audioSampleRate
+    : '';
+  const renderedAudioBufferSize = defaultAudioBufferSizes
+    ? audioBufferSize
+    : '';
 
   const onSubmit: SubmitHandler<EmulatorSettings> = ({
     saveFileName,
@@ -355,7 +363,7 @@ export const EmulatorSettingsModal = () => {
                 <Select
                   label="Audio Sample Rate"
                   disabled={isRunning}
-                  value={watch('audioSampleRate')}
+                  value={renderedAudioSampleRate}
                   {...register('audioSampleRate', {
                     required: {
                       value: true,
@@ -376,7 +384,7 @@ export const EmulatorSettingsModal = () => {
                 <Select
                   label="Audio Buffer Size"
                   disabled={isRunning}
-                  value={watch('audioBufferSize')}
+                  value={renderedAudioBufferSize}
                   {...register('audioBufferSize', {
                     required: {
                       value: true,
@@ -503,12 +511,7 @@ export const EmulatorSettingsModal = () => {
         >
           Reset
         </Button>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            setIsModalOpen(false);
-          }}
-        >
+        <Button variant="outlined" onClick={closeModal}>
           Close
         </Button>
       </ModalFooter>

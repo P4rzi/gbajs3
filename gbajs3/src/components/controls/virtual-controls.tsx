@@ -27,7 +27,6 @@ import {
 } from '../../hooks/context.tsx';
 import { useAddCallbacks } from '../../hooks/emulator/use-add-callbacks.tsx';
 import { useQuickReload } from '../../hooks/emulator/use-quick-reload.tsx';
-import { UploadSaveToServerModal } from '../modals/upload-save-to-server.tsx';
 import { Copy } from '../shared/styled.tsx';
 
 import type { AreVirtualControlsEnabledProps } from '../modals/controls/virtual-controls-form.tsx';
@@ -67,12 +66,13 @@ export const VirtualControls = () => {
   const { emulator } = useEmulatorContext();
   const { isRunning } = useRunningContext();
   const { isAuthenticated } = useAuthContext();
-  const { setModalContent, setIsModalOpen } = useModalContext();
+  const { openModal } = useModalContext();
   const { getLayout } = useLayoutContext();
   const { initialBounds } = useInitialBoundsContext();
   const virtualControlToastId = useId();
   const { quickReload } = useQuickReload();
   const { syncActionIfEnabled } = useAddCallbacks();
+  const isEmulatorReady = !!emulator;
   const [currentSaveStateSlots] = useLocalStorage<CurrentSaveStateSlots>(
     saveStateSlotsLocalStorageKey,
     {}
@@ -341,7 +341,7 @@ export const VirtualControls = () => {
         y: '0px'
       },
       keyName: 'a-button',
-      enabled: shouldShowVirtualButtonsAndOpad
+      shown: shouldShowVirtualButtonsAndOpad
     },
     {
       keyId: 'B',
@@ -352,7 +352,7 @@ export const VirtualControls = () => {
         y: '0px'
       },
       keyName: 'b-button',
-      enabled: shouldShowVirtualButtonsAndOpad
+      shown: shouldShowVirtualButtonsAndOpad
     },
     {
       keyId: 'SELECT',
@@ -366,7 +366,7 @@ export const VirtualControls = () => {
             y: '0px'
           },
       keyName: 'select-button',
-      enabled: shouldShowVirtualButtonsAndOpad
+      shown: shouldShowVirtualButtonsAndOpad
     },
     {
       keyId: 'START',
@@ -380,7 +380,7 @@ export const VirtualControls = () => {
             y: '0px'
           },
       keyName: 'start-button',
-      enabled: shouldShowVirtualButtonsAndOpad
+      shown: shouldShowVirtualButtonsAndOpad
     },
     {
       keyId: 'L',
@@ -388,7 +388,7 @@ export const VirtualControls = () => {
       children: <VirtualButtonTextSmall>L</VirtualButtonTextSmall>,
       initialPosition: initialPositionForKey('l-button'),
       keyName: 'l-button',
-      enabled: shouldShowVirtualButtonsAndOpad
+      shown: shouldShowVirtualButtonsAndOpad
     },
     {
       keyId: 'R',
@@ -400,7 +400,7 @@ export const VirtualControls = () => {
         y: '0px'
       },
       keyName: 'r-button',
-      enabled: shouldShowVirtualButtonsAndOpad
+      shown: shouldShowVirtualButtonsAndOpad
     },
     {
       children: <BiRefresh />,
@@ -415,14 +415,14 @@ export const VirtualControls = () => {
       width: 40,
       initialPosition: initialPositionForKey('quickreload-button'),
       keyName: 'quickreload-button',
-      enabled: shouldShowVirtualControl(areVirtualControlsEnabled?.QuickReload)
+      disabled: !isEmulatorReady,
+      shown: shouldShowVirtualControl(areVirtualControlsEnabled?.QuickReload)
     },
     {
       children: <BiSolidCloudUpload />,
       onPointerDown: () => {
         if (isAuthenticated() && isRunning) {
-          setModalContent(<UploadSaveToServerModal />);
-          setIsModalOpen(true);
+          openModal({ type: 'uploadSaveToServer' });
         } else if (areNotificationsEnabled) {
           toast.error('Please log in and load a game', {
             id: virtualControlToastId
@@ -436,7 +436,8 @@ export const VirtualControls = () => {
         y: '0px'
       },
       keyName: 'uploadsave-button',
-      enabled: shouldShowVirtualControl(
+      disabled: !isEmulatorReady,
+      shown: shouldShowVirtualControl(
         areVirtualControlsEnabled?.SendSaveToServer
       )
     },
@@ -466,7 +467,8 @@ export const VirtualControls = () => {
         y: '0px'
       },
       keyName: 'loadstate-button',
-      enabled: shouldShowVirtualControl(areVirtualControlsEnabled?.LoadState)
+      disabled: !isEmulatorReady,
+      shown: shouldShowVirtualControl(areVirtualControlsEnabled?.LoadState)
     },
     {
       children: <BiSave />,
@@ -496,7 +498,8 @@ export const VirtualControls = () => {
         y: '0px'
       },
       keyName: 'savestate-button',
-      enabled: shouldShowVirtualControl(areVirtualControlsEnabled?.SaveState)
+      disabled: !isEmulatorReady,
+      shown: shouldShowVirtualControl(areVirtualControlsEnabled?.SaveState)
     }
   ];
 
@@ -505,14 +508,17 @@ export const VirtualControls = () => {
       {shouldShowVirtualButtonsAndOpad && (
         <OPad initialPosition={initialPositionForKey('o-pad')} />
       )}
-      {virtualButtons.map((virtualButtonProps) => (
-        <VirtualButton
-          ariaLabel={keyToAriaLabel(virtualButtonProps.keyName)}
-          inputName={virtualButtonProps.keyName}
-          key={virtualButtonProps.keyName}
-          {...virtualButtonProps}
-        />
-      ))}
+      {virtualButtons.map(
+        ({ keyName, shown, ...rest }) =>
+          shown && (
+            <VirtualButton
+              ariaLabel={keyToAriaLabel(keyName)}
+              inputName={keyName}
+              key={keyName}
+              {...rest}
+            />
+          )
+      )}
     </IconContext.Provider>
   );
 };

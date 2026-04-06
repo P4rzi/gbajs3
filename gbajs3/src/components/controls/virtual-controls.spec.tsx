@@ -10,7 +10,6 @@ import { GbaDarkTheme } from '../../context/theme/theme.tsx';
 import * as contextHooks from '../../hooks/context.tsx';
 import * as addCallbackHooks from '../../hooks/emulator/use-add-callbacks.tsx';
 import * as quickReloadHooks from '../../hooks/emulator/use-quick-reload.tsx';
-import { UploadSaveToServerModal } from '../modals/upload-save-to-server.tsx';
 
 import type { GBAEmulator } from '../../emulator/mgba/mgba-emulator.tsx';
 
@@ -115,6 +114,15 @@ describe('<VirtualControls />', () => {
       ).not.toBeInTheDocument();
     });
 
+    it('renders utility virtual controls as disabled while emulator is loading', () => {
+      renderWithContext(<VirtualControls />);
+
+      expect(screen.getByLabelText('Quickreload Button')).toBeDisabled();
+      expect(screen.getByLabelText('Uploadsave Button')).toBeDisabled();
+      expect(screen.getByLabelText('Loadstate Button')).toBeDisabled();
+      expect(screen.getByLabelText('Savestate Button')).toBeDisabled();
+    });
+
     it('quick reloads game', async () => {
       const quickReloadSpy: () => void = vi.fn();
       const { useEmulatorContext: original } = await vi.importActual<
@@ -177,10 +185,10 @@ describe('<VirtualControls />', () => {
     });
 
     it('upload save opens modal if authenticated and running a game', async () => {
-      const setIsModalOpenSpy = vi.fn();
-      const setModalContextSpy = vi.fn();
+      const openModalSpy = vi.fn();
       const {
         useAuthContext: originalAuth,
+        useEmulatorContext: originalEmulator,
         useModalContext: originalContext,
         useRunningContext: originalRunning
       } = await vi.importActual<typeof contextHooks>('../../hooks/context.tsx');
@@ -195,34 +203,47 @@ describe('<VirtualControls />', () => {
         isRunning: true
       }));
 
+      vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+        ...originalEmulator(),
+        emulator: {
+          getCurrentAutoSaveStatePath: () => null,
+          getCurrentGameName: () => 'some_rom.gba'
+        } as GBAEmulator
+      }));
+
       vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
         ...originalContext(),
-        setModalContent: setModalContextSpy,
-        setIsModalOpen: setIsModalOpenSpy
+        openModal: openModalSpy
       }));
 
       renderWithContext(<VirtualControls />);
 
       await userEvent.click(screen.getByLabelText('Uploadsave Button'));
 
-      expect(setModalContextSpy).toHaveBeenCalledWith(
-        <UploadSaveToServerModal />
-      );
-      expect(setIsModalOpenSpy).toHaveBeenCalledWith(true);
+      expect(openModalSpy).toHaveBeenCalledWith({
+        type: 'uploadSaveToServer'
+      });
     });
 
     it('upload save renders error toast', async () => {
-      const setIsModalOpenSpy = vi.fn();
-      const setModalContextSpy = vi.fn();
+      const openModalSpy = vi.fn();
 
-      const { useModalContext: original } = await vi.importActual<
-        typeof contextHooks
-      >('../../hooks/context.tsx');
+      const {
+        useModalContext: original,
+        useEmulatorContext: originalEmulator
+      } = await vi.importActual<typeof contextHooks>('../../hooks/context.tsx');
 
       vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
         ...original(),
-        setModalContent: setModalContextSpy,
-        setIsModalOpen: setIsModalOpenSpy
+        openModal: openModalSpy
+      }));
+
+      vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+        ...originalEmulator(),
+        emulator: {
+          getCurrentAutoSaveStatePath: () => null,
+          getCurrentGameName: () => undefined
+        } as GBAEmulator
       }));
 
       const toastErrorSpy = vi.spyOn(toast.default, 'error');
@@ -235,8 +256,7 @@ describe('<VirtualControls />', () => {
         'Please log in and load a game',
         { id: expect.any(String) }
       );
-      expect(setModalContextSpy).not.toHaveBeenCalled();
-      expect(setIsModalOpenSpy).not.toHaveBeenCalled();
+      expect(openModalSpy).not.toHaveBeenCalled();
     });
 
     it('loads save state', async () => {

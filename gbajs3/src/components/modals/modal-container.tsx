@@ -2,6 +2,7 @@ import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Modal from 'react-modal';
 
+import { LazyModalContent } from './modal-container/lazy-modal-content.tsx';
 import { useEmulatorContext, useModalContext } from '../../hooks/context.tsx';
 
 const modalStyles = {
@@ -38,7 +39,7 @@ const landscapeModalStyles = {
 };
 
 export const ModalContainer = () => {
-  const { modalContent, isModalOpen, setIsModalOpen } = useModalContext();
+  const { modal, isModalOpen, closeModal, clearModal } = useModalContext();
   const { emulator } = useEmulatorContext();
   const theme = useTheme();
   const isMobileLandscape = useMediaQuery(theme.isMobileLandscape);
@@ -49,14 +50,15 @@ export const ModalContainer = () => {
       closeTimeoutMS={400}
       isOpen={isModalOpen}
       style={isMobileLandscape ? landscapeModalStyles : modalStyles}
-      onRequestClose={() => {
-        setIsModalOpen(false);
-      }}
+      onRequestClose={closeModal}
       onAfterOpen={emulator?.disableKeyboardInput}
-      onAfterClose={emulator?.enableKeyboardInput}
+      onAfterClose={() => {
+        clearModal();
+        emulator?.enableKeyboardInput();
+      }}
       aria={{ labelledby: 'modalHeader' }}
     >
-      {modalContent}
+      <LazyModalContent modal={modal} />
     </Modal>
   );
 };

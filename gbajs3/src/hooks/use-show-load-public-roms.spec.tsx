@@ -6,15 +6,16 @@ import { useShowLoadPublicRoms } from './use-show-load-public-roms.tsx';
 import { testRomLocation } from '../../test/mocks/handlers.ts';
 import { renderHookWithContext } from '../../test/render-hook-with-context.tsx';
 
+import type { GBAEmulator } from '../emulator/mgba/mgba-emulator.tsx';
+
 const valid_url = `${testRomLocation}/good_rom.gba`;
 const invalid_url = `bad url`;
 
 describe('useShowLoadPublicRoms', () => {
   it('should open modal if all conditions are met', async () => {
-    const setIsModalOpenSpy = vi.fn();
-    const setModalContextSpy = vi.fn();
+    const openModalSpy = vi.fn();
     const isModalOpenSpy = vi.fn(() => true).mockReturnValueOnce(false);
-    const { useModalContext: original } =
+    const { useModalContext: original, useEmulatorContext: originalEmulator } =
       await vi.importActual<typeof contextHooks>('./context.tsx');
 
     // pwa prompt must also have appeared if iOS and been dismissed if so
@@ -26,23 +27,32 @@ describe('useShowLoadPublicRoms', () => {
 
     vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
       ...original(),
-      setModalContent: setModalContextSpy,
-      setIsModalOpen: setIsModalOpenSpy,
+      openModal: openModalSpy,
       isModalOpen: isModalOpenSpy()
+    }));
+
+    vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+      ...originalEmulator(),
+      emulator: {} as GBAEmulator
     }));
 
     renderHookWithContext(() => {
       useShowLoadPublicRoms();
     });
 
-    expect(setModalContextSpy).toHaveBeenCalledOnce();
-    expect(setModalContextSpy).toHaveBeenCalledWith(expect.anything());
+    expect(openModalSpy).toHaveBeenCalledOnce();
+    expect(openModalSpy).toHaveBeenCalledWith({
+      type: 'uploadPublicExternalRoms',
+      props: {
+        url: new URL(valid_url),
+        onLoadOrDismiss: expect.any(Function)
+      }
+    });
   });
 
   it('marks url as error if invalid', async () => {
-    const setIsModalOpenSpy = vi.fn();
-    const setModalContextSpy = vi.fn();
-    const { useModalContext: original } =
+    const openModalSpy = vi.fn();
+    const { useModalContext: original, useEmulatorContext: originalEmulator } =
       await vi.importActual<typeof contextHooks>('./context.tsx');
 
     // pwa prompt must also have appeared if iOS and been dismissed if so
@@ -56,16 +66,19 @@ describe('useShowLoadPublicRoms', () => {
 
     vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
       ...original(),
-      setModalContent: setModalContextSpy,
-      setIsModalOpen: setIsModalOpenSpy
+      openModal: openModalSpy
+    }));
+
+    vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+      ...originalEmulator(),
+      emulator: {} as GBAEmulator
     }));
 
     renderHookWithContext(() => {
       useShowLoadPublicRoms();
     });
 
-    expect(setModalContextSpy).not.toHaveBeenCalled();
-    expect(setModalContextSpy).not.toHaveBeenCalled();
+    expect(openModalSpy).not.toHaveBeenCalled();
     expect(setItemSpy).toHaveBeenCalledWith(
       'hasLoadedPublicExternalRoms',
       '{"bad url":"error"}'
@@ -73,10 +86,9 @@ describe('useShowLoadPublicRoms', () => {
   });
 
   it('should not reopen modal if URL was already attempted this session', async () => {
-    const setIsModalOpenSpy = vi.fn();
-    const setModalContextSpy = vi.fn();
+    const openModalSpy = vi.fn();
     const isModalOpenSpy = vi.fn(() => false);
-    const { useModalContext: original } =
+    const { useModalContext: original, useEmulatorContext: originalEmulator } =
       await vi.importActual<typeof contextHooks>('./context.tsx');
 
     vi.spyOn(window, 'location', 'get').mockReturnValue({
@@ -85,25 +97,67 @@ describe('useShowLoadPublicRoms', () => {
 
     vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
       ...original(),
-      setModalContent: setModalContextSpy,
-      setIsModalOpen: setIsModalOpenSpy,
+      openModal: openModalSpy,
       isModalOpen: isModalOpenSpy()
+    }));
+
+    vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
+      ...originalEmulator(),
+      emulator: {} as GBAEmulator
     }));
 
     const { rerender } = renderHookWithContext(() => {
       useShowLoadPublicRoms();
     });
 
-    expect(setModalContextSpy).toHaveBeenCalledOnce();
+    expect(openModalSpy).toHaveBeenCalledOnce();
 
-    setModalContextSpy.mockClear();
-    setIsModalOpenSpy.mockClear();
+    openModalSpy.mockClear();
 
     // simulate re-render after overlay dismiss
     rerender();
 
     // modal should not reopen since url was already attempted
-    expect(setModalContextSpy).not.toHaveBeenCalled();
-    expect(setIsModalOpenSpy).not.toHaveBeenCalled();
+    expect(openModalSpy).not.toHaveBeenCalled();
+  });
+
+  it('waits for emulator readiness before opening the public rom modal', async () => {
+    const openModalSpy = vi.fn();
+    const { useModalContext: original, useEmulatorContext: originalEmulator } =
+      await vi.importActual<typeof contextHooks>('./context.tsx');
+
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      search: `?romURL=${valid_url}`
+    } as Location);
+
+    vi.spyOn(contextHooks, 'useModalContext').mockImplementation(() => ({
+      ...original(),
+      openModal: openModalSpy,
+      isModalOpen: false
+    }));
+
+    vi.spyOn(contextHooks, 'useEmulatorContext')
+      .mockImplementationOnce(() => ({
+        ...originalEmulator(),
+        emulator: null
+      }))
+      .mockImplementationOnce(() => ({
+        ...originalEmulator(),
+        emulator: null
+      }))
+      .mockImplementation(() => ({
+        ...originalEmulator(),
+        emulator: {} as GBAEmulator
+      }));
+
+    const { rerender } = renderHookWithContext(() => {
+      useShowLoadPublicRoms();
+    });
+
+    expect(openModalSpy).not.toHaveBeenCalled();
+
+    rerender();
+
+    expect(openModalSpy).toHaveBeenCalledOnce();
   });
 });
