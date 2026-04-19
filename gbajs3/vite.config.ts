@@ -123,8 +123,11 @@ export default defineConfig(({ mode }) => {
           ]
         },
         workbox: {
+          cleanupOutdatedCaches: true,
+          clientsClaim: true,
           globPatterns: ['**/*.{js,css,html,wasm}'],
-          navigateFallbackDenylist: [/^\/admin/]
+          navigateFallbackDenylist: [/^\/admin/],
+          skipWaiting: true
         },
         ...(withCOIServiceWorker
           ? {

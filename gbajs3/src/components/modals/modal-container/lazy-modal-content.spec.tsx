@@ -1,12 +1,29 @@
 import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { LazyModalContent } from './lazy-modal-content.tsx';
+import {
+  isDynamicImportFailure,
+  LazyModalContent
+} from './lazy-modal-content.tsx';
 import { renderWithContext } from '../../../../test/render-with-context.tsx';
 
 import type { ModalState } from '../../../context/modal/modal-context.tsx';
 
 describe('<ModalRenderer />', () => {
+  it.each([
+    'Failed to fetch dynamically imported module',
+    'Importing a module script failed',
+    'ChunkLoadError: Loading chunk 42 failed',
+    'Loading chunk login failed'
+  ])('detects dynamic import failures for %s', (message) => {
+    expect(isDynamicImportFailure(new Error(message))).toBe(true);
+  });
+
+  it('does not treat regular runtime errors as dynamic import failures', () => {
+    expect(isDynamicImportFailure(new Error('Something else broke'))).toBe(false);
+    expect(isDynamicImportFailure('plain string')).toBe(false);
+  });
+
   it('renders nothing when modal is null', () => {
     const { container } = renderWithContext(<LazyModalContent modal={null} />);
 

@@ -18,10 +18,76 @@ type LazyNamedModal = <TModule, TProps extends object>(
   pick: (module: TModule) => ComponentType<TProps>
 ) => LazyModalComponent<TProps>;
 
+const staleChunkReloadKey = 'gbajs3:stale-chunk-reload';
+
+const dynamicImportFailurePattern =
+  /Failed to fetch dynamically imported module|Importing a module script failed|Loading chunk [\w-]+ failed|ChunkLoadError/i;
+
+export const isDynamicImportFailure = (error: unknown): error is Error =>
+  error instanceof Error && dynamicImportFailurePattern.test(error.message);
+
+const clearPwaRuntimeState = async () => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map((registration) => registration.unregister()));
+  }
+
+  if ('caches' in window) {
+    const cacheKeys = await caches.keys();
+    await Promise.all(cacheKeys.map((cacheKey) => caches.delete(cacheKey)));
+  }
+};
+
+const reloadOnceAfterDynamicImportFailure = async (error: unknown) => {
+  if (
+    typeof window === 'undefined' ||
+    typeof sessionStorage === 'undefined' ||
+    !isDynamicImportFailure(error)
+  ) {
+    return false;
+  }
+
+  if (sessionStorage.getItem(staleChunkReloadKey) === '1') {
+    sessionStorage.removeItem(staleChunkReloadKey);
+    return false;
+  }
+
+  sessionStorage.setItem(staleChunkReloadKey, '1');
+
+  try {
+    await clearPwaRuntimeState();
+  } catch (cleanupError) {
+    console.error('Failed to clear cached assets after a dynamic import failure.', cleanupError);
+  }
+
+  window.location.reload();
+  return true;
+};
+
 const lazyNamedModal: LazyNamedModal = (load, pick) =>
-  lazy(async () => ({
-    default: pick(await load())
-  }));
+  lazy(async () => {
+    try {
+      const module = await load();
+
+      if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem(staleChunkReloadKey);
+      }
+
+      return {
+        default: pick(module)
+      };
+    } catch (error) {
+      if (await reloadOnceAfterDynamicImportFailure(error)) {
+        return await new Promise<never>(() => undefined);
+      }
+
+      throw error;
+    }
+  });
 
 const modals = {
   about: lazyNamedModal(
