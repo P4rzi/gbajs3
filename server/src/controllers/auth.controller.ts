@@ -10,6 +10,13 @@ const REFRESH_TOKEN_EXPIRY = '7h';
 const REFRESH_COOKIE_MAX_AGE = 7 * 60 * 60 * 1000; // 7 hours in ms
 const BCRYPT_ROUNDS = 10;
 
+const refreshCookieOptions = {
+  path: '/api/tokens/refresh',
+  httpOnly: true,
+  sameSite: config.isProduction ? ('none' as const) : ('lax' as const),
+  secure: config.isProduction
+};
+
 export async function register(req: Request, res: Response) {
   try {
     const { username, password } = req.body;
@@ -86,10 +93,8 @@ export async function login(req: Request, res: Response) {
     );
 
     res.cookie('refresh-tok', refreshToken, {
-      path: '/api/tokens/refresh',
-      httpOnly: true,
       maxAge: REFRESH_COOKIE_MAX_AGE,
-      sameSite: 'lax'
+      ...refreshCookieOptions
     });
 
     return res.json(accessToken);
@@ -102,10 +107,8 @@ export async function login(req: Request, res: Response) {
 export async function logout(_req: Request, res: Response) {
   try {
     res.cookie('refresh-tok', '', {
-      path: '/api/tokens/refresh',
-      httpOnly: true,
       maxAge: 0,
-      sameSite: 'lax'
+      ...refreshCookieOptions
     });
 
     return res.sendStatus(200);
