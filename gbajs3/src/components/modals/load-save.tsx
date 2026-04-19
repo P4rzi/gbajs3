@@ -10,7 +10,6 @@ import { useEmulatorContext, useModalContext } from '../../hooks/context.tsx';
 import { useAddCallbacks } from '../../hooks/emulator/use-add-callbacks.tsx';
 import { useListSaves } from '../../hooks/use-list-saves.tsx';
 import { useLoadSave } from '../../hooks/use-load-save.tsx';
-import { findLatestSaveForRom } from '../../hooks/use-auto-load-latest-save.tsx';
 import { ErrorWithIcon } from '../shared/error-with-icon.tsx';
 import { PacmanIndicator } from '../shared/loading-indicator.tsx';
 import { CenteredText } from '../shared/styled.tsx';
@@ -37,21 +36,27 @@ export const LoadSaveModal = () => {
     isPending: saveLoading,
     isSuccess: saveLoadSuccess,
     error: saveLoadError,
-    mutate: executeLoadSave
+    mutateAsync: executeLoadSave
   } = useLoadSave({
     onSuccess: (file) => {
       emulator?.uploadSaveOrSaveState(file, syncActionIfEnabled);
     }
   });
 
-  // Auto-load the most recent save state for the current game when list is ready
+  // Auto-load all save states for the current game when list is ready
   useEffect(() => {
     if (!gameName || saveListLoading || !saveList?.length) return;
     if (hasAttemptedAutoLoad.current) return;
 
-    const saveName = findLatestSaveForRom(saveList, gameName);
     hasAttemptedAutoLoad.current = true;
-    if (saveName) executeLoadSave({ saveName });
+
+    const loadAllSaveStates = async () => {
+      for (const save of saveList) {
+        await executeLoadSave({ saveName: save.filename });
+      }
+    };
+
+    void loadAllSaveStates();
   }, [saveList, saveListLoading, gameName, executeLoadSave]);
 
   return (
@@ -61,7 +66,7 @@ export const LoadSaveModal = () => {
         {saveListLoading || saveLoading ? (
           <PacmanIndicator />
         ) : saveLoadSuccess ? (
-          <CenteredText>Save state loaded successfully!</CenteredText>
+          <CenteredText>Save states loaded successfully!</CenteredText>
         ) : saveLoadError ? (
           <SaveError
             icon={<BiError style={{ color: theme.errorRed }} />}
@@ -72,7 +77,7 @@ export const LoadSaveModal = () => {
             icon={<BiError style={{ color: theme.errorRed }} />}
             text="Listing saves has failed"
           />
-        ) : !saveList?.length || !gameName || !findLatestSaveForRom(saveList, gameName) ? (
+        ) : !saveList?.length || !gameName ? (
           <CenteredText>
             No save states found for this game on the server
           </CenteredText>
