@@ -5,6 +5,19 @@ import {
   type GBAEmulator
 } from '../emulator/mgba/mgba-emulator.tsx';
 
+const emulatorInitTimeoutMs = 15000;
+
+const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T> =>
+  Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error(`Emulator initialization timed out after ${ms}ms`)),
+        ms
+      )
+    )
+  ]);
+
 export const useEmulator = (canvas: HTMLCanvasElement | null) => {
   const [emulator, setEmulator] = useState<GBAEmulator | null>(null);
   const [emulatorLoadError, setEmulatorLoadError] = useState<Error | null>(null);
@@ -18,7 +31,7 @@ export const useEmulator = (canvas: HTMLCanvasElement | null) => {
         setEmulatorLoadError(null);
 
         const { default: mGBA } = await import('@thenick775/mgba-wasm');
-        const Module = await mGBA({ canvas });
+        const Module = await withTimeout(mGBA({ canvas }), emulatorInitTimeoutMs);
 
         const mGBAVersion =
           Module.version.projectName + ' ' + Module.version.projectVersion;
