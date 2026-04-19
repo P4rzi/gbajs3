@@ -61,15 +61,17 @@ export async function uploadRom(req: Request, res: Response) {
         .json({ error: `Invalid file extension. Allowed: ${ALLOWED_ROM_EXTENSIONS.join(', ')}` });
     }
 
+    const romBytes = Uint8Array.from(req.file.buffer);
+
     await prisma.rom.upsert({
       where: {
         userId_filename: { userId, filename: req.file.originalname }
       },
-      update: { data: req.file.buffer },
+      update: { data: romBytes },
       create: {
         userId,
         filename: req.file.originalname,
-        data: req.file.buffer
+        data: romBytes
       },
       select: { id: true }
     });

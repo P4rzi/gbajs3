@@ -67,15 +67,17 @@ export async function uploadSave(req: Request, res: Response) {
       return res.status(400).json({ error: 'Only save state files (.ssN) are allowed' });
     }
 
+    const saveBytes = Uint8Array.from(req.file.buffer);
+
     await prisma.save.upsert({
       where: {
         userId_filename: { userId, filename: req.file.originalname }
       },
-      update: { data: req.file.buffer },
+      update: { data: saveBytes },
       create: {
         userId,
         filename: req.file.originalname,
-        data: req.file.buffer
+        data: saveBytes
       },
       select: { id: true }
     });
