@@ -1,7 +1,7 @@
 import { Button, Collapse, IconButton } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import { useLocalStorage } from '@uidotdev/usehooks';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BiError, BiTrash } from 'react-icons/bi';
 import { FaRegEye } from 'react-icons/fa';
 
@@ -175,7 +175,7 @@ export const SaveStatesModal = () => {
   const { emulator } = useEmulatorContext();
   const [currentSaveStates, setCurrentSaveStates] = useState<
     string[] | undefined
-  >(emulator?.listCurrentSaveStates);
+  >(undefined);
   const [saveStateError, setSaveStateError] = useState<string | null>(null);
   const [currentSlots, setCurrentSlots] =
     useLocalStorage<CurrentSaveStateSlots>(saveStateSlotsLocalStorageKey, {});
@@ -188,6 +188,10 @@ export const SaveStatesModal = () => {
     const saveStatesList = emulator?.listCurrentSaveStates();
     setCurrentSaveStates(saveStatesList);
   }, [emulator]);
+
+  useEffect(() => {
+    refreshSaveStates();
+  }, [refreshSaveStates]);
 
   const saveStateImageUrls = useMemo(
     () =>

@@ -145,11 +145,14 @@ const isFileExtensionOfType = (
   );
 };
 
+const saveStateSlotRegex = /\.ss[0-9]+$/i;
+
 const filterSaveStates =
-  (baseSaveStateName?: string) => (saveStateName: string) =>
+  (currentGameBaseName?: string) => (saveStateName: string) =>
     !fileIgnorePaths.includes(saveStateName) &&
-    baseSaveStateName &&
-    saveStateName.startsWith(baseSaveStateName);
+    !!currentGameBaseName &&
+    saveStateSlotRegex.test(saveStateName) &&
+    saveStateName.toLowerCase().startsWith(currentGameBaseName.toLowerCase());
 
 export const mGBAEmulator = (mGBA: mGBAEmulatorTypeDef): GBAEmulator => {
   const paths = mGBA.filePaths();
@@ -309,10 +312,11 @@ export const mGBAEmulator = (mGBA: mGBAEmulatorTypeDef): GBAEmulator => {
     defaultFileTypes: () => fileTypes,
     loadSaveState: (...args) => mGBA.loadState(...args),
     listCurrentSaveStates: () => {
-      const baseSaveStateName = filepathToFileName(mGBA.gameName, '.ss');
+      const currentGameName = filepathToFileName(mGBA.gameName);
+      const currentGameBaseName = currentGameName?.replace(/\.[^.]+$/, '');
 
       return mGBA.FS.readdir(paths.saveStatePath).filter(
-        filterSaveStates(baseSaveStateName)
+        filterSaveStates(currentGameBaseName)
       );
     },
     getSaveState: (saveStateName: string) => {
