@@ -17,9 +17,8 @@ describe('<UploadSaveToServerModal />', () => {
     vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
       ...originalEmulator(),
       emulator: {
-        getCurrentSave: () =>
-          new TextEncoder().encode('Some save file contents'),
-        getCurrentSaveName: () => 'some_save.sav'
+        listCurrentSaveStates: () => ['pokemon.ss1'],
+        getSaveState: () => new TextEncoder().encode('Some save state contents')
       } as GBAEmulator
     }));
 
@@ -27,7 +26,7 @@ describe('<UploadSaveToServerModal />', () => {
 
     expect(
       screen.getByText(
-        'Are you sure you want to upload your current save file to the server?'
+        'Are you sure you want to upload your latest save state to the server?'
       )
     ).toBeInTheDocument();
 
@@ -39,9 +38,7 @@ describe('<UploadSaveToServerModal />', () => {
       screen.queryByTestId('upload-save-spinner')
     );
 
-    expect(
-      screen.getByText('Save file upload was successful!')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Save state upload was successful!')).toBeInTheDocument();
   });
 
   it('renders error message failure to upload', async () => {
@@ -52,9 +49,8 @@ describe('<UploadSaveToServerModal />', () => {
     vi.spyOn(contextHooks, 'useEmulatorContext').mockImplementation(() => ({
       ...originalEmulator(),
       emulator: {
-        getCurrentSave: () =>
-          new TextEncoder().encode('Some save file contents'),
-        getCurrentSaveName: () => '400'
+        listCurrentSaveStates: () => ['400.ss1'],
+        getSaveState: () => new TextEncoder().encode('Some save state contents')
       } as GBAEmulator
     }));
 
@@ -66,7 +62,7 @@ describe('<UploadSaveToServerModal />', () => {
       screen.queryByTestId('upload-save-spinner')
     );
 
-    expect(screen.getByText('Save file upload has failed')).toBeInTheDocument();
+    expect(screen.getByText('Save state upload has failed')).toBeInTheDocument();
   });
 
   it('closes modal using the close button', async () => {

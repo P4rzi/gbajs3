@@ -187,7 +187,7 @@ export const NavigationMenu = () => {
     isExpandedByUser ?? (isLargerThanPhone && !isMobileLandscape);
   const isEmulatorReady = !!emulator;
   const isMenuItemDisabledByAuth = !isAuthenticated();
-  const hasApiLocation = !!import.meta.env.VITE_GBA_SERVER_LOCATION;
+  const hasApiLocation = import.meta.env.VITE_GBA_SERVER_LOCATION != null;
   const hasNoLocalRoms = isEmulatorReady && !emulator.listRoms().length;
 
   useShowLoadPublicRoms();
@@ -390,7 +390,7 @@ export const NavigationMenu = () => {
               onClick={executeLogout}
             />
             <NavLeaf
-              title="Load Save (Server)"
+              title="Load Save State (Server)"
               $disabled={isMenuItemDisabledByAuth || !isEmulatorReady}
               icon={<BiCloudDownload />}
               onClick={() => {
@@ -406,7 +406,7 @@ export const NavigationMenu = () => {
               }}
             />
             <NavLeaf
-              title="Send Save to Server"
+              title="Send Save State to Server"
               $disabled={isMenuItemDisabledByAuth || !isRunning}
               icon={<BiCloudUpload />}
               onClick={() => {

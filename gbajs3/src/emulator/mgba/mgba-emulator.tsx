@@ -112,7 +112,7 @@ export const fileTypes: FileTypes = {
   rom: ['.gba', '.gbc', '.gb', '.zip', '.7z'],
   patch: ['.ips', '.ups', '.bps'],
   autosave: [{ regex: /_auto\.ss$/, displayText: '_auto.ss' }],
-  save: ['.sav', { regex: /\.ss[0-9]+/, displayText: '.ss' }],
+  save: ['.sav', '.stat', { regex: /\.ss[0-9]+/, displayText: '.ss' }],
   cheat: ['.cheats'],
   screenshot: ['.png']
 };

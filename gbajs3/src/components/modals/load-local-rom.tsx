@@ -7,6 +7,7 @@ import { ModalFooter } from './modal-footer.tsx';
 import { ModalHeader } from './modal-header.tsx';
 import { useEmulatorContext, useModalContext } from '../../hooks/context.tsx';
 import { useRunGame } from '../../hooks/emulator/use-run-game.tsx';
+import { useAutoLoadLatestSave } from '../../hooks/use-auto-load-latest-save.tsx';
 import { CenteredText } from '../shared/styled.tsx';
 
 const StyledLi = styled('li')`
@@ -74,6 +75,7 @@ export const LoadLocalRomModal = () => {
   const { emulator } = useEmulatorContext();
   const romListId = useId();
   const runGame = useRunGame();
+  const autoLoadLatestSave = useAutoLoadLatestSave();
   const localRoms = emulator?.listRoms();
 
   return (
@@ -86,6 +88,7 @@ export const LoadLocalRomModal = () => {
               <LoadRomButton
                 onClick={() => {
                   runGame(romName);
+                  autoLoadLatestSave(romName);
                   closeModal();
                 }}
               >

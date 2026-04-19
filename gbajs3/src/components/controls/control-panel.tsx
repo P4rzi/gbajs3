@@ -38,6 +38,8 @@ import { GripperHandle } from '../shared/gripper-handle.tsx';
 import { PanelButton, SliderButton } from './control-panel/buttons.tsx';
 import { PanelSlider } from './control-panel/panel-slider.tsx';
 import { useUnloadEmulator } from '../../hooks/emulator/use-unload-emulator.tsx';
+import { useAutoSaveToServer } from '../../hooks/emulator/use-auto-save-to-server.tsx';
+import { useLoginAutoLoadSave } from '../../hooks/emulator/use-login-auto-load-save.tsx';
 
 import type { EmulatorSettings } from '../modals/emulator-settings.tsx';
 
@@ -162,6 +164,12 @@ export const ControlPanel = () => {
 
   // take auto save state when page is hidden (best effort)
   useUnloadEmulator();
+
+  // periodically upload auto-save state to server (fire-and-forget)
+  useAutoSaveToServer();
+
+  // auto-load latest save state when logging in with a game already running
+  useLoginAutoLoadSave();
 
   const refSetLayout = useCallback(
     (node: Rnd | null) => {

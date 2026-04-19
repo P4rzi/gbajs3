@@ -11,6 +11,7 @@ import { useAddCallbacks } from '../../hooks/emulator/use-add-callbacks.tsx';
 import { useRunGame } from '../../hooks/emulator/use-run-game.tsx';
 import { useListRoms } from '../../hooks/use-list-roms.tsx';
 import { useLoadRom } from '../../hooks/use-load-rom.tsx';
+import { useAutoLoadLatestSave } from '../../hooks/use-auto-load-latest-save.tsx';
 import { ErrorWithIcon } from '../shared/error-with-icon.tsx';
 import {
   LoadingIndicator,
@@ -107,6 +108,7 @@ export const LoadRomModal = () => {
     null
   );
   const { syncActionIfEnabled } = useAddCallbacks();
+  const autoLoadLatestSave = useAutoLoadLatestSave();
   const {
     data: romList,
     isPending: romListLoading,
@@ -122,6 +124,7 @@ export const LoadRomModal = () => {
       const runCallback = async () => {
         await syncActionIfEnabled();
         runGame(file.name);
+        autoLoadLatestSave(file.name);
       };
 
       emulator?.uploadRom(file, runCallback);

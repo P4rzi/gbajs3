@@ -36,17 +36,17 @@ const DynamicBody = ({
     BodyContents = () => (
       <ErrorWithIcon
         icon={<BiError style={{ color: errorColor }} />}
-        text="Save file upload has failed"
+        text="Save state upload has failed"
       />
     );
   } else if (respStatus === 200) {
     BodyContents = () => (
-      <CenteredText>Save file upload was successful!</CenteredText>
+      <CenteredText>Save state upload was successful!</CenteredText>
     );
   } else {
     BodyContents = () => (
       <CenteredText>
-        Are you sure you want to upload your current save file to the server?
+        Are you sure you want to upload your latest save state to the server?
       </CenteredText>
     );
   }
@@ -85,12 +85,22 @@ export const UploadSaveToServerModal = () => {
           id={uploadSaveToServerButtonId}
           variant="contained"
           onClick={() => {
-            const saveFileBytes = emulator?.getCurrentSave();
-            const saveName = emulator?.getCurrentSaveName();
+            let saveStateNames = emulator?.listCurrentSaveStates() ?? [];
 
-            if (saveFileBytes && saveName) {
-              const saveFileBlob = new Blob([saveFileBytes.slice()]);
-              const saveFile = new File([saveFileBlob], saveName);
+            // Best effort: ensure at least one save state exists.
+            if (!saveStateNames.length) {
+              emulator?.createSaveState(0);
+              saveStateNames = emulator?.listCurrentSaveStates() ?? [];
+            }
+
+            const latestSaveStateName = saveStateNames.at(-1);
+            const saveStateBytes = latestSaveStateName
+              ? emulator?.getSaveState(latestSaveStateName)
+              : null;
+
+            if (saveStateBytes && latestSaveStateName) {
+              const saveStateBlob = new Blob([saveStateBytes.slice()]);
+              const saveFile = new File([saveStateBlob], latestSaveStateName);
 
               executeUploadSave({ saveFile });
             }

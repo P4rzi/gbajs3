@@ -275,7 +275,11 @@ export const DragAndDropInput = ({
           'aria-label': ariaLabel
         })}
       >
-        <input data-testid="hidden-file-input" {...getInputProps({ name })} />
+        <input
+          data-testid="hidden-file-input"
+          {...getInputProps({ name })}
+          accept="*"
+        />
         <BiCloudUploadLarge />
         {children}
       </DropArea>

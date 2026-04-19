@@ -3,7 +3,13 @@ import { z } from 'zod';
 
 import { useAuthContext } from './context.tsx';
 
-const SaveListSchema = z.array(z.string());
+const SaveItemSchema = z.object({
+  filename: z.string(),
+  updatedAt: z.string()
+});
+
+const SaveListSchema = z.array(SaveItemSchema);
+export type SaveItem = z.infer<typeof SaveItemSchema>;
 export type SaveListResponse = z.infer<typeof SaveListSchema>;
 
 export const useListSaves = (options?: UseQueryOptions<SaveListResponse>) => {

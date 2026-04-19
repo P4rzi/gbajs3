@@ -36,6 +36,20 @@ export const useWriteFileToEmulator = () => {
         fileType === 'save' ||
         emulator.isFileExtensionOfType(nameLower, 'save')
       ) {
+        // Some emulators export save states as .stat. We remap to mGBA naming (.ssN)
+        // while preserving the binary contents.
+        if (nameLower.endsWith('.stat')) {
+          const convertedName = `${name.replace(/\.[^.]+$/, '')}.ss0`;
+          const convertedFile = new File([file], convertedName, {
+            type: file.type,
+            lastModified: file.lastModified
+          });
+
+          return new Promise<void>((resolve) => {
+            emulator.uploadSaveOrSaveState(convertedFile, resolve);
+          });
+        }
+
         return new Promise<void>((resolve) => {
           emulator.uploadSaveOrSaveState(file, resolve);
         });
