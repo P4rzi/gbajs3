@@ -2,19 +2,43 @@ import { Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 import path from 'path';
 
-const logsDir = path.resolve(process.cwd(), 'logs');
+const isServerlessRuntime =
+  process.env.VERCEL === '1' || process.env.AWS_LAMBDA_FUNCTION_NAME !== undefined;
 
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
-}
+const logsDir = isServerlessRuntime
+  ? path.resolve('/tmp', 'gbajs3-logs')
+  : path.resolve(process.cwd(), 'logs');
 
 const logFilePath = path.join(logsDir, 'requests.log');
 
+let canWriteToFile = !isServerlessRuntime;
+
+function ensureLogDirectory() {
+  if (!canWriteToFile) {
+    return false;
+  }
+
+  try {
+    if (!fs.existsSync(logsDir)) {
+      fs.mkdirSync(logsDir, { recursive: true });
+    }
+
+    return true;
+  } catch {
+    canWriteToFile = false;
+    return false;
+  }
+}
+
 function appendLog(entry: string) {
+  if (!ensureLogDirectory()) {
+    return;
+  }
+
   try {
     fs.appendFileSync(logFilePath, entry + '\n', 'utf8');
   } catch {
-    // if we can't write the log, don't crash the server
+    canWriteToFile = false;
   }
 }
 
