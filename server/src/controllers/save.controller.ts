@@ -2,14 +2,29 @@ import { Request, Response } from 'express';
 import { prisma } from '../prisma';
 
 const isSaveStateFilename = (filename: string) =>
-  /\.ss\d+$/.test(filename) || /_auto\.ss$/.test(filename);
+  /\.ss\d+$/i.test(filename) || /_auto\.ss$/i.test(filename);
+
+const getGameBaseName = (gameName?: string) =>
+  gameName?.trim().replace(/\.[^.]+$/, '');
 
 export async function listSaves(req: Request, res: Response) {
   try {
     const userId = req.user!.userId;
+    const gameName = typeof req.query.game === 'string' ? req.query.game : '';
+    const gameBaseName = getGameBaseName(gameName);
 
     const saves = await prisma.save.findMany({
-      where: { userId },
+      where: {
+        userId,
+        ...(gameBaseName
+          ? {
+              filename: {
+                startsWith: gameBaseName,
+                mode: 'insensitive'
+              }
+            }
+          : {})
+      },
       select: { filename: true, updatedAt: true },
       orderBy: { updatedAt: 'desc' }
     });

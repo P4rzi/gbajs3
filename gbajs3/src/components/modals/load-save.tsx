@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
-import { useEffect, useId } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { BiError } from 'react-icons/bi';
 
 import { ModalBody } from './modal-body.tsx';
@@ -23,14 +23,16 @@ export const LoadSaveModal = () => {
   const theme = useTheme();
   const { closeModal } = useModalContext();
   const { emulator } = useEmulatorContext();
+  const gameName = emulator?.getCurrentGameName();
   const saveListId = useId();
   const { syncActionIfEnabled } = useAddCallbacks();
+  const hasAttemptedAutoLoad = useRef(false);
   const {
     data: saveList,
     isPending: saveListLoading,
     error: saveListError,
     isPaused: saveListPaused
-  } = useListSaves();
+  } = useListSaves({ enabled: !!gameName, gameName });
   const {
     isPending: saveLoading,
     isSuccess: saveLoadSuccess,
@@ -42,17 +44,15 @@ export const LoadSaveModal = () => {
     }
   });
 
-  // Auto-load the most recent save state for the current game on mount
+  // Auto-load the most recent save state for the current game when list is ready
   useEffect(() => {
-    if (saveListLoading || !saveList?.length) return;
-    const gameName = emulator?.getCurrentGameName();
-    if (!gameName) return;
-    const saveName = findLatestSaveForRom(saveList, gameName);
-    if (saveName) executeLoadSave({ saveName });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveListLoading]);
+    if (!gameName || saveListLoading || !saveList?.length) return;
+    if (hasAttemptedAutoLoad.current) return;
 
-  const gameName = emulator?.getCurrentGameName();
+    const saveName = findLatestSaveForRom(saveList, gameName);
+    hasAttemptedAutoLoad.current = true;
+    if (saveName) executeLoadSave({ saveName });
+  }, [saveList, saveListLoading, gameName, executeLoadSave]);
 
   return (
     <>

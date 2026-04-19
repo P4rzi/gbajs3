@@ -10,8 +10,9 @@ export const findLatestSaveForRom = (
   romName: string
 ): string | null => {
   const baseName = romName.replace(/\.[^.]+$/, '');
+  const baseNameLower = baseName.toLowerCase();
   const matches = saveList
-    .filter((s) => s.filename.startsWith(baseName))
+    .filter((s) => s.filename.toLowerCase().startsWith(baseNameLower))
     .sort(
       (a, b) =>
         new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()

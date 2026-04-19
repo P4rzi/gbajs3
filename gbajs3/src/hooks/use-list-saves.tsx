@@ -12,14 +12,20 @@ const SaveListSchema = z.array(SaveItemSchema);
 export type SaveItem = z.infer<typeof SaveItemSchema>;
 export type SaveListResponse = z.infer<typeof SaveListSchema>;
 
-export const useListSaves = (options?: UseQueryOptions<SaveListResponse>) => {
+type UseListSavesOptions = UseQueryOptions<SaveListResponse> & {
+  gameName?: string;
+};
+
+export const useListSaves = (options?: UseListSavesOptions) => {
   const apiLocation = import.meta.env.VITE_GBA_SERVER_LOCATION;
   const { accessToken } = useAuthContext();
+  const gameName = options?.gameName;
 
   return useQuery<SaveListResponse>({
-    queryKey: ['gbaSaves', accessToken, apiLocation],
+    queryKey: ['gbaSaves', accessToken, apiLocation, gameName],
     queryFn: async () => {
-      const url = `${apiLocation}/api/save/list`;
+      const gameQuery = gameName ? `?game=${encodeURIComponent(gameName)}` : '';
+      const url = `${apiLocation}/api/save/list${gameQuery}`;
       const options: RequestInit = {
         method: 'GET',
         headers: {
