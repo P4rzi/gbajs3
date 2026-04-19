@@ -5,6 +5,7 @@ import type { Dispatch, SetStateAction } from 'react';
 
 type EmulatorContextProps = {
   emulator: GBAEmulator | null;
+  emulatorLoadError: Error | null;
   canvas: HTMLCanvasElement | null;
   setCanvas: Dispatch<SetStateAction<HTMLCanvasElement | null>>;
 };

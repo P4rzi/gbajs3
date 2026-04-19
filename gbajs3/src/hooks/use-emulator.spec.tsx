@@ -13,7 +13,8 @@ describe('useEmulator', () => {
   it('returns null when canvas is null', () => {
     const { result } = renderHook(() => useEmulator(null));
 
-    expect(result.current).toBeNull();
+    expect(result.current.emulator).toBeNull();
+    expect(result.current.emulatorLoadError).toBeNull();
   });
 
   it('initializes mGBA and returns the wrapped emulator when canvas exists', async () => {
@@ -39,12 +40,35 @@ describe('useEmulator', () => {
     const { result } = renderHook(() => useEmulator(canvas));
 
     await waitFor(() => {
-      expect(result.current).toBe(emulator);
+      expect(result.current.emulator).toBe(emulator);
     });
 
     expect(mGBA).toHaveBeenCalledWith({ canvas });
     expect(fsInitSpy).toHaveBeenCalledOnce();
     expect(mgbaEmulatorModule.mGBAEmulator).toHaveBeenCalledWith(module);
     expect(consoleLogSpy).toHaveBeenCalledWith('mGBA 1.0.0');
+    expect(result.current.emulatorLoadError).toBeNull();
+  });
+
+  it('captures initialization failures', async () => {
+    const canvas = {} as HTMLCanvasElement;
+    const emulatorError = new Error('SharedArrayBuffer is not available');
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined);
+
+    vi.mocked(mGBA).mockRejectedValueOnce(emulatorError);
+
+    const { result } = renderHook(() => useEmulator(canvas));
+
+    await waitFor(() => {
+      expect(result.current.emulatorLoadError).toBe(emulatorError);
+    });
+
+    expect(result.current.emulator).toBeNull();
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to initialize emulator:',
+      emulatorError
+    );
   });
 });

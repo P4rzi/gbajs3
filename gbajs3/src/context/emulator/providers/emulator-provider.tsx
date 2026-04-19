@@ -10,12 +10,14 @@ type EmulatorProviderProps = {
 
 export const EmulatorProvider = ({ children }: EmulatorProviderProps) => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
-  const emulator = useEmulator(canvas);
+  const { emulator, emulatorLoadError } = useEmulator(canvas);
 
   useRestoreAutoSaveStateData(emulator);
 
   return (
-    <EmulatorContext.Provider value={{ emulator, canvas, setCanvas }}>
+    <EmulatorContext.Provider
+      value={{ emulator, emulatorLoadError, canvas, setCanvas }}
+    >
       {children}
     </EmulatorContext.Provider>
   );

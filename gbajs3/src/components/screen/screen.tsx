@@ -89,6 +89,21 @@ const LoadingCoreBadge = styled('div')`
   }
 `;
 
+const EmulatorErrorBadge = styled('div')`
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 10px 12px;
+  border: 1px solid ${({ theme }) => theme.gbaThemeBlue};
+  border-radius: 8px;
+  background-color: rgba(18, 24, 33, 0.92);
+  color: ${({ theme }) => theme.pureWhite};
+  font-size: 12px;
+  line-height: 1.4;
+`;
+
 // overrides rnd styles to fallback to css
 const defaultSize = {
   width: '',
@@ -103,7 +118,7 @@ export const Screen = () => {
   const isMobileLandscape = useMediaQuery(theme.isMobileLandscape, {
     noSsr: true
   });
-  const { emulator, canvas, setCanvas } = useEmulatorContext();
+  const { emulator, emulatorLoadError, canvas, setCanvas } = useEmulatorContext();
   const { areItemsDraggable } = useDragContext();
   const { areItemsResizable } = useResizeContext();
   const { getLayout, setLayout } = useLayoutContext();
@@ -207,10 +222,16 @@ export const Screen = () => {
         width={defaultGBACanvasWidth}
         height={defaultGBACanvasHeight}
       />
-      {!!canvas && !emulator && (
+      {!!canvas && !emulator && !emulatorLoadError && (
         <LoadingCoreBadge aria-label="Emulator loading">
           <BeatLoader color={theme.gbaThemeBlue} margin={3} size={7} />
         </LoadingCoreBadge>
+      )}
+      {emulatorLoadError && (
+        <EmulatorErrorBadge role="alert">
+          Failed to initialize the emulator core in this environment. Reload the
+          page and confirm production is serving the COI service worker.
+        </EmulatorErrorBadge>
       )}
     </ScreenWrapper>
   );

@@ -10,7 +10,8 @@ import { coverageConfigDefaults } from 'vitest/config';
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig(({ mode }) => {
-  const withCOIServiceWorker = mode === 'with-coi-serviceworker';
+  const withCOIServiceWorker =
+    mode === 'with-coi-serviceworker' || mode === 'production';
 
   return {
     base: './',

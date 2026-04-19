@@ -7,10 +7,16 @@ import {
 
 export const useEmulator = (canvas: HTMLCanvasElement | null) => {
   const [emulator, setEmulator] = useState<GBAEmulator | null>(null);
+  const [emulatorLoadError, setEmulatorLoadError] = useState<Error | null>(null);
 
   useEffect(() => {
+    let isCancelled = false;
+
     const initialize = async () => {
       if (canvas) {
+        setEmulator(null);
+        setEmulatorLoadError(null);
+
         const { default: mGBA } = await import('@thenick775/mgba-wasm');
         const Module = await mGBA({ canvas });
 
@@ -22,12 +28,29 @@ export const useEmulator = (canvas: HTMLCanvasElement | null) => {
 
         const emulator = mGBAEmulator(Module);
 
-        setEmulator(emulator);
+        if (!isCancelled) {
+          setEmulator(emulator);
+        }
       }
     };
 
-    void initialize();
+    void initialize().catch((error: unknown) => {
+      console.error('Failed to initialize emulator:', error);
+
+      if (!isCancelled) {
+        setEmulator(null);
+        setEmulatorLoadError(
+          error instanceof Error
+            ? error
+            : new Error('Unknown emulator initialization failure')
+        );
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, [canvas]);
 
-  return emulator;
+  return { emulator, emulatorLoadError };
 };
