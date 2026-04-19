@@ -69,6 +69,7 @@ server {
 
         root   /var/www;
         index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
     }
 
     location /api/ {
